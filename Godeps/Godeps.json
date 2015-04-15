@@ -1,0 +1,58 @@
+{
+    "ImportPath": "github.com/nlamirault/blinky",
+    "GoVersion": "go1.4",
+    "Deps": [
+        {
+            "ImportPath": "github.com/Sirupsen/logrus",
+            "Comment": "v0.6.1",
+            "Rev": "1f2ba2c6317323dd667bd266c1e8ebffc4a4c62f"
+        },
+        {
+            "ImportPath": "github.com/ttacon/chalk",
+            "Rev": "76b3c8b611dea8f83e49e9ce81fc2b189e0ef3d2"
+        },
+        {
+            "ImportPath": "github.com/codegangsta/cli",
+            "Rev": "f7ebb761e83e21225d1d8954fde853bf8edd46c4"
+        },
+        {
+            "ImportPath": "golang.org/x/tools/go/ast/astutil"
+        },
+        {
+            "ImportPath": "golang.org/x/sys/unix"
+        },
+        {
+            "ImportPath": "github.com/axw/gocov",
+            "Rev": "bf5ca3ee473d38f90a53b218b09c6ae789736dec"
+        },
+        {
+            "ImportPath": "github.com/kisielk/errcheck",
+            "Rev": "4d56548c3ee221e1a470e6679784798ff50720d6"
+        },
+        {
+            "ImportPath": "github.com/golang/lint",
+            "Rev": "dea130113ab8ebacb52dbce09c9a4c92951afdca"
+        },
+        {
+            "ImportPath": "gopkg.in/check.v1"
+        },
+        {
+	    "ImportPath": "golang.org/x/net/html"
+	},
+        {
+            "ImportPath" : "code.google.com/p/go.tools/cover"
+        },
+        {
+            "ImportPath" : "code.google.com/p/goauth2/oauth"
+        },
+	{
+	    "ImportPath": "golang.org/x/net/websocket"
+	},
+        {
+            "ImportPath": "code.google.com/p/google-api-go-client/compute/v1"
+        },
+        {
+            "ImportPath": "golang.org/x/text/encoding"
+        }
+    ]
+}
