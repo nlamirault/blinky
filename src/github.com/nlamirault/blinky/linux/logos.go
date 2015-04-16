@@ -20,10 +20,12 @@ import (
 )
 
 var (
+	orange = "\x1b[33m"
 	red    = "\x1b[31;1m"
 	green  = "\x1b[32;1m"
 	yellow = "\x1b[33;1m"
 	blue   = "\x1b[34;1m"
+	purple = "\x1b[35;1m"
 	cyan   = "\x1b[36;1m"
 	white  = "\x1b[37;1m"
 	logos  = map[string]string{
@@ -80,23 +82,55 @@ var (
 			yellow + `           .o:` + red + `\'.syhhhhhhh/` + yellow + `.oo++o\'     ` + "\n" +
 			red + `               /osyyyyyyo` + yellow + `++ooo+++/    ` + "\n" +
 			red + `                   \'\'\'\'\' ` + yellow + `+oo+++o\:    ` + "\n" +
-			yellow + `                          \'oo++.      ` + "\n",
-		"mint": green + ` MMMMMMMMMMMMMMMMMMMMMMMMMmds+.       ` + "\n" +
+			yellow + `                          'oo++.      ` + "\n",
+		"mint": green + `MMMMMMMMMMMMMMMMMMMMMMMMMmds+.       ` + "\n" +
 			green + `MMm----::-://////////////oymNMd+'    ` + "\n" +
 			green + `MMd      ` + white + `/++                ` + green + `-sNMd:   ` + "\n" +
-			green + `MMNso/\'  ` + white + `dMM    \'.::-. .-::.\' ` + green + `.hMN:  ` + "\n" +
-			green + `ddddMMh  ` + white + `dMM   :hNMNMNhNMNMNh: ` + green + `\'NMm  ` + "\n" +
-			green + `    NMm  ` + white + `dMM  .NMN/-+MMM+-/NMN\' ` + green + `dMM  ` + "\n" +
-			green + `    NMm  ` + white + `dMM  -MMm  \'MMM   dMM. ` + green + `dMM  ` + "\n" +
-			green + `    NMm  ` + white + `dMM  -MMm  \'MMM   dMM. ` + green + `dMM  ` + "\n" +
-			green + `    NMm  ` + white + `dMM  .mmd  \'mmm   yMM. ` + green + `dMM  ` + "\n" +
-			green + `    NMm  ` + white + `dMM\'  ..\'   ...   ydm. ` + green + `dMM  ` + "\n" +
+			green + `MMNso/'  ` + white + `dMM    '.::-. .-::.' ` + green + `.hMN:  ` + "\n" +
+			green + `ddddMMh  ` + white + `dMM   :hNMNMNhNMNMNh: ` + green + `'NMm  ` + "\n" +
+			green + `    NMm  ` + white + `dMM  .NMN/-+MMM+-/NMN' ` + green + `dMM  ` + "\n" +
+			green + `    NMm  ` + white + `dMM  -MMm  'MMM   dMM. ` + green + `dMM  ` + "\n" +
+			green + `    NMm  ` + white + `dMM  -MMm  'MMM   dMM. ` + green + `dMM  ` + "\n" +
+			green + `    NMm  ` + white + `dMM  .mmd  'mmm   yMM. ` + green + `dMM  ` + "\n" +
+			green + `    NMm  ` + white + `dMM'  ..'   ...   ydm. ` + green + `dMM  ` + "\n" +
 			green + `    hMM- ` + white + `+MMd/-------...-:sdds  ` + green + `dMM  ` + "\n" +
-			green + `    -NMm- ` + white + `:hNMNNNmdddddddddy/\'  ` + green + `dMM  ` + "\n" +
-			green + `     -dMNs-` + white + `\'\'-::::-------.\'\'    ` + green + `dMM  ` + "\n" +
-			green + `      \'/dMNmy+/:-------------:/yMMM  ` + "\n" +
+			green + `    -NMm- ` + white + `:hNMNNNmdddddddddy/'  ` + green + `dMM  ` + "\n" +
+			green + `     -dMNs-` + white + `''-::::-------.''    ` + green + `dMM  ` + "\n" +
+			green + `      '/dMNmy+/:-------------:/yMMM  ` + "\n" +
 			green + `         ./ydNMMMMMMMMMMMMMMMMMMMMM  ` + "\n" +
 			green + `            \.MMMMMMMMMMMMMMMMMMM    ` + "\n",
+		"osx": green + `                  -/+:.          ` + "\n" +
+			green + `                 :++++.         ` + "\n" +
+			green + `                /+++/.          ` + "\n" +
+			green + `        .:-::- .+/:-''.::-      ` + "\n" +
+			green + `     .:/++++++/::::/++++++/:'   ` + "\n" +
+			yellow + `  .:///////////////////////:'  ` + "\n" +
+			yellow + `  ////////////////////////'    ` + "\n" +
+			orange + ` -+++++++++++++++++++++++'     ` + "\n" +
+			orange + ` /++++++++++++++++++++++/      ` + "\n" +
+			red + ` /sssssssssssssssssssssss.     ` + "\n" +
+			red + ` :ssssssssssssssssssssssss-    ` + "\n" +
+			purple + `  osssssssssssssssssssssssso/' ` + "\n" +
+			purple + `  'syyyyyyyyyyyyyyyyyyyyyyyy+' ` + "\n" +
+			blue + `   'ossssssssssssssssssssss/   ` + "\n" +
+			blue + `     :ooooooooooooooooooo+.    ` + "\n" +
+			blue + `      ':+oo+/:-..-:/+o+/-      ` + "\n",
+		"windows": red + `        ,.=:!!t3Z3z.,                 ` + "\n" +
+			red + `       :tt:::tt333EE3                ` + "\n" +
+			red + `       Et:::ztt33EEEL` + green + ` @Ee.,      .., ` + "\n" +
+			red + `      ;tt:::tt333EE7` + green + ` ;EEEEEEttttt33# ` + "\n" +
+			red + `     :Et:::zt333EEQ.` + green + ` $EEEEEttttt33QL ` + "\n" +
+			red + `     it::::tt333EEF` + green + ` @EEEEEEttttt33F  ` + "\n" +
+			red + `    ;3=*^'''"*4EEV` + green + ` :EEEEEEttttt33@.  ` + "\n" +
+			blue + `    ,.=::::!t=., ` + red + `'` + green + ` @EEEEEEtttz33QF   ` + "\n" +
+			blue + `   ;::::::::zt33)` + green + `   "4EEEtttji3P*    ` + "\n" +
+			blue + `  :t::::::::tt33.` + yellow + `:Z3z..` + green + `  '' ` + yellow + ` ,..g.    ` + "\n" +
+			blue + `  i::::::::zt33F` + yellow + ` AEEEtttt::::ztF     ` + "\n" +
+			blue + ` ;:::::::::t33V` + yellow + ` ;EEEttttt::::t3      ` + "\n" +
+			blue + ` E::::::::zt33L` + yellow + ` @EEEtttt::::z3F      ` + "\n" +
+			blue + `{3=*^'''"*4E3)` + yellow + ` ;EEEtttt:::::tZ'      ` + "\n" +
+			blue + `             '` + yellow + ` :EEEEtttt::::z7       ` + "\n" +
+			yellow + `                 "VEzjt:;;z>*'       ` + "\n",
 	}
 )
 
