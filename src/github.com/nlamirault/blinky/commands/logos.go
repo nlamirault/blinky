@@ -20,6 +20,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
+	"github.com/ttacon/chalk"
 
 	"github.com/nlamirault/blinky/linux"
 )
@@ -50,6 +51,12 @@ var commandLogoDist = cli.Command{
 
 func doLogoList(c *cli.Context) {
 	log.Debugf("List logos")
+	dists := linux.GetLinuxDistributions()
+	log.Debugf("Linux distributions: %s", dists)
+	fmt.Println(chalk.Blue, "Distributions:", chalk.Reset)
+	for _, dist := range dists {
+		fmt.Printf(" - %s\n", dist)
+	}
 }
 
 func doLogoDist(c *cli.Context) {
