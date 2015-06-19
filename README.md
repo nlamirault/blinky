@@ -4,9 +4,19 @@ Blinky
 ## Description
 
 
+## Support / Contribute
+
+See [here](CONTRIBUTING.md)
+
+
 ## Changelog
 
 A changelog is available [here](ChangeLog.md).
+
+
+## License
+
+See [LICENSE](LICENSE).
 
 
 ## Contact
