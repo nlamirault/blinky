@@ -38,6 +38,12 @@
 			"branch": "master"
 		},
 		{
+			"importpath": "github.com/shirou/gopsutil",
+			"repository": "https://github.com/shirou/gopsutil",
+			"revision": "0921e1f1536769f17ff188a253294adcbc4e2c03",
+			"branch": "master"
+		},
+		{
 			"importpath": "github.com/tobi/airbrake-go",
 			"repository": "https://github.com/tobi/airbrake-go",
 			"revision": "5b5e269e1bc398d43f67e43dafff3414a59cd5a2",
@@ -48,6 +54,13 @@
 			"repository": "https://github.com/ttacon/chalk",
 			"revision": "e66ca4d608eb6dc36d012bceeb08ef9f379134c1",
 			"branch": "master"
+		},
+		{
+			"importpath": "golang.org/x/sys/unix",
+			"repository": "https://go.googlesource.com/sys",
+			"revision": "b4e289961544fc90f340c908c3460ceae6a2202a",
+			"branch": "master",
+			"path": "/unix"
 		}
 	]
 }
