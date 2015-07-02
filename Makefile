@@ -19,14 +19,8 @@ EXE="blinky"
 SHELL = /bin/bash
 
 DIR = $(shell pwd)
-GO_PATH = $(DIR)/Godeps/_workspace:$(DIR)
 
 DOCKER = docker
-GODEP= $(DIR)/Godeps/_workspace/bin/godep
-GOLINT= $(DIR)/Godeps/_workspace/bin/golint
-ERRCHECK= $(DIR)/Godeps/_workspace/bin/errcheck
-GOVER= $(DIR)/Godeps/_workspace/bin/gover
-GOVERALLS= $(DIR)/Godeps/_workspace/bin/goveralls
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
@@ -59,18 +53,15 @@ clean:
 .PHONY: init
 init:
 	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go get github.com/golang/glog
-	@GOPATH=$(GO_PATH) go get github.com/tools/godep
-	@GOPATH=$(GO_PATH) go get -u github.com/golang/lint/golint
-	@GOPATH=$(GO_PATH) go get -u github.com/kisielk/errcheck
-
-deps:
-	@echo -e "$(OK_COLOR)[$(APP)] Install dependancies$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(GODEP) restore
+	@go get github.com/constabulary/gb/...
 
 build:
 	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go build -o $(EXE) github.com/nlamirault/$(APP)
+	@$(GB) build
+
+
+
+
 
 doc:
 	@GOPATH=$(GO_PATH) godoc -http=:6060 -index
