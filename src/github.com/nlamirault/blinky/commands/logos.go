@@ -62,5 +62,4 @@ func doLogoList(c *cli.Context) {
 func doLogoDist(c *cli.Context) {
 	log.Debugf("Distribution logo: " + c.String("name"))
 	fmt.Println(linux.GetLogo(c.String("name")))
-
 }

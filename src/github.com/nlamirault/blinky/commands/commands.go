@@ -25,18 +25,21 @@ import (
 // Commands is the CLI commands
 var Commands = []cli.Command{
 	{
-		Name: "system",
+		Name:  "system",
+		Usage: "Informations about current system",
 		Subcommands: []cli.Command{
 			commandSystemInfos,
 		},
 	},
 	{
-		Name: "logo",
+		Name:  "logo",
+		Usage: "Operating systems logos",
 		Subcommands: []cli.Command{
 			commandLogoList,
 			commandLogoDist,
 		},
 	},
+	commandDisplay,
 }
 
 // Flags is the default arguments to the CLI.
