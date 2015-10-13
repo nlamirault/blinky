@@ -19,14 +19,10 @@ EXE="blinky"
 SHELL = /bin/bash
 
 DIR = $(shell pwd)
-GO_PATH = $(DIR)/Godeps/_workspace:$(DIR)
 
 DOCKER = docker
-GODEP= $(DIR)/Godeps/_workspace/bin/godep
-GOLINT= $(DIR)/Godeps/_workspace/bin/golint
-ERRCHECK= $(DIR)/Godeps/_workspace/bin/errcheck
-GOVER= $(DIR)/Godeps/_workspace/bin/gover
-GOVERALLS= $(DIR)/Godeps/_workspace/bin/goveralls
+
+GB = gb
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
@@ -59,57 +55,24 @@ clean:
 .PHONY: init
 init:
 	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go get github.com/golang/glog
-	@GOPATH=$(GO_PATH) go get github.com/tools/godep
-	@GOPATH=$(GO_PATH) go get -u github.com/golang/lint/golint
-	@GOPATH=$(GO_PATH) go get -u github.com/kisielk/errcheck
-
-deps:
-	@echo -e "$(OK_COLOR)[$(APP)] Install dependancies$(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(GODEP) restore
+	@go get github.com/constabulary/gb/...
 
 build:
 	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go build -o $(EXE) github.com/nlamirault/$(APP)
+	@$(GB) build
+
+test:
+	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
+	@$(GB) test
+
+deps:
+	@echo -e "$(OK_COLOR)[$(APP)] Display dependencies $(NO_COLOR)"
+	@$(GB) vendor list
 
 doc:
 	@GOPATH=$(GO_PATH) godoc -http=:6060 -index
 
-fmt:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch fmt $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go fmt github.com/nlamirault/$(APP)/...
 
-errcheck:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch errcheck $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(ERRCHECK) github.com/nlamirault/$(APP)/...
-
-vet:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch vet $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go vet github.com/nlamirault/$(APP)/...
-
-lint:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch golint $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) $(GOLINT) github.com/nlamirault/$(APP)/...
-
-style: fmt vet lint
-
-test:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -v github.com/nlamirault/$(APP)/...
-
-race:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests race $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test -race github.com/nlamirault/$(APP)/...
-
-coverage:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test github.com/nlamirault/$(APP)/... -cover
-
-covoutput:
-	@echo -e "$(OK_COLOR)[$(APP)] Launch code coverage $(NO_COLOR)"
-	@GOPATH=$(GO_PATH) go test ${pkg} -covermode=count -coverprofile=coverage.out
-#	@GOPATH=$(GO_PATH) go tool cover -html=coverage.out
-	@GOPATH=$(GO_PATH) go tool cover -func=coverage.out
 
 release: clean build
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"

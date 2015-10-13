@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+// Copyright (C) 2015  Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,57 +19,12 @@ import (
 	"bufio"
 	"os"
 	"strings"
-	"time"
 
 	log "github.com/Sirupsen/logrus"
 	"golang.org/x/sys/unix"
 
 	"github.com/nlamirault/blinky/utils"
 )
-
-// Date holds the date facts.
-type Date struct {
-	Unix int64
-	UTC  string
-}
-
-// FileSystems holds the Filesystem facts.
-type FileSystems map[string]FileSystem
-
-type OSSystem struct {
-	Domainname   string
-	Architecture string
-	Hostname     string
-}
-
-// type SystemFacts struct {
-// 	BootID      string
-// 	Date        Date
-// 	OSSystem    OSSystem
-// 	Network     Network
-// 	Kernel      Kernel
-// 	MachineID   string
-// 	Memory      Memory
-// 	OSRelease   OSRelease
-// 	Uptime      int64
-// 	FileSystems FileSystems
-// }
-
-// Network holds the network facts.
-type Network struct {
-	Interfaces Interfaces
-}
-
-// Interfaces holds the interface facts.
-type Interfaces map[string]Interface
-
-// Interface holds facts for a single interface.
-type Interface struct {
-	Name         string
-	Index        int
-	HardwareAddr string
-	IpAddresses  []string
-}
 
 // OSRelease holds the OS release facts.
 type OSRelease struct {
@@ -80,6 +35,12 @@ type OSRelease struct {
 	VersionID  string
 }
 
+type OSSystem struct {
+	Domainname   string
+	Architecture string
+	Hostname     string
+}
+
 // Kernel holds the kernel facts.
 type Kernel struct {
 	Name    string
@@ -87,30 +48,21 @@ type Kernel struct {
 	Version string
 }
 
-// Memory holds the memory facts.
-type Memory struct {
-	Total    uint64
-	Free     uint64
-	Shared   uint64
-	Buffered uint64
-}
-
-// FileSystem holds facts for a filesystem (man fstab).
-type FileSystem struct {
-	Device     string
-	MountPoint string
-	Type       string
-	Options    []string
-	DumpFreq   uint64
-	PassNo     uint64
-}
-
-func GetDate() *Date {
-	now := time.Now()
-	return &Date{
-		Unix: now.Unix(),
-		UTC:  now.UTC().String(),
+func GetKernelInformations() (*OSSystem, *Kernel, error) {
+	var buf unix.Utsname
+	err := unix.Uname(&buf)
+	if err != nil {
+		return nil, nil, err
 	}
+	ossystem := new(OSSystem)
+	ossystem.Domainname = utils.CharsToString(buf.Domainname)
+	ossystem.Architecture = utils.CharsToString(buf.Machine)
+	ossystem.Hostname = utils.CharsToString(buf.Nodename)
+	kernel := new(Kernel)
+	kernel.Name = utils.CharsToString(buf.Sysname)
+	kernel.Release = utils.CharsToString(buf.Release)
+	kernel.Version = utils.CharsToString(buf.Version)
+	return ossystem, kernel, nil
 }
 
 func GetOSRelease() (*OSRelease, error) {
@@ -144,35 +96,4 @@ func GetOSRelease() (*OSRelease, error) {
 		}
 	}
 	return osrelease, nil
-}
-
-func GetKernelInformations() (*OSSystem, *Kernel, error) {
-	var buf unix.Utsname
-	err := unix.Uname(&buf)
-	if err != nil {
-		return nil, nil, err
-	}
-	ossystem := new(OSSystem)
-	ossystem.Domainname = utils.CharsToString(buf.Domainname)
-	ossystem.Architecture = utils.CharsToString(buf.Machine)
-	ossystem.Hostname = utils.CharsToString(buf.Nodename)
-	kernel := new(Kernel)
-	kernel.Name = utils.CharsToString(buf.Sysname)
-	kernel.Release = utils.CharsToString(buf.Release)
-	kernel.Version = utils.CharsToString(buf.Version)
-	return ossystem, kernel, nil
-}
-
-func GetLoadAndMemory() (*Memory, int64, error) {
-	var info unix.Sysinfo_t
-	if err := unix.Sysinfo(&info); err != nil {
-		return nil, 0, err
-	}
-
-	memory := new(Memory)
-	memory.Total = info.Totalram
-	memory.Free = info.Freeram
-	memory.Shared = info.Sharedram
-	memory.Buffered = info.Bufferram
-	return memory, info.Uptime, nil
 }

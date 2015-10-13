@@ -16,34 +16,32 @@
 package commands
 
 import (
-	//"log"
-	//"os"
+	"fmt"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/codegangsta/cli"
+	"github.com/ttacon/chalk"
+
+	"github.com/nlamirault/blinky/linux"
 )
 
-// Commands is the CLI commands
-var Commands = []cli.Command{
-	{
-		Name:  "system",
-		Usage: "Informations about current system",
-		Subcommands: []cli.Command{
-			commandSystemInfos,
-		},
+var commandDisplay = cli.Command{
+	Name:        "display",
+	Usage:       "Display system informations",
+	Description: ``,
+	Action:      doDisplaySystemInformations,
+	Flags: []cli.Flag{
+		verboseFlag,
 	},
-	{
-		Name:  "logo",
-		Usage: "Operating systems logos",
-		Subcommands: []cli.Command{
-			commandLogoList,
-			commandLogoDist,
-		},
-	},
-	commandDisplay,
 }
 
-// Flags is the default arguments to the CLI.
-var verboseFlag = cli.BoolFlag{
-	Name:  "verbose",
-	Usage: "Show more output",
+func doDisplaySystemInformations(c *cli.Context) {
+	log.Debugf("Display system informations")
+	osrelease, _ := linux.GetOSRelease()
+	log.Debugf("OS: %s", osrelease)
+	ossystem, _, _ := linux.GetKernelInformations()
+	fmt.Println(chalk.Blue, "OS:", chalk.Reset,
+		osrelease.PrettyName,
+		" ",
+		ossystem.Architecture)
 }
