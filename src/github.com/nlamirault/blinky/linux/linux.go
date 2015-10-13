@@ -20,7 +20,6 @@ import (
 	"os"
 	"strings"
 
-	log "github.com/Sirupsen/logrus"
 	"golang.org/x/sys/unix"
 
 	"github.com/nlamirault/blinky/utils"
@@ -68,7 +67,7 @@ func GetKernelInformations() (*OSSystem, *Kernel, error) {
 func GetOSRelease() (*OSRelease, error) {
 	osReleaseFile, err := os.Open("/etc/os-release")
 	if err != nil {
-		log.Errorf("Can't open OS release file : %s", err.Error())
+		//log.Printf("[ERROR] Can't open OS release file : %s", err.Error())
 		return nil, err
 	}
 	defer osReleaseFile.Close()

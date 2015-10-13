@@ -2,63 +2,62 @@
 	"version": 0,
 	"dependencies": [
 		{
-			"importpath": "github.com/Sirupsen/logrus",
-			"repository": "https://github.com/Sirupsen/logrus",
-			"revision": "ab7e46ea22bd379e660230844f96d20f1dabc21a",
+			"importpath": "github.com/hashicorp/logutils",
+			"repository": "https://github.com/hashicorp/logutils",
+			"revision": "0dc08b1671f34c4250ce212759ebd880f743d883",
 			"branch": "master"
 		},
 		{
-			"importpath": "github.com/bugsnag/bugsnag-go",
-			"repository": "https://github.com/bugsnag/bugsnag-go",
-			"revision": "13fd6b8acda029830ef9904df6b63be0a83369d0",
+			"importpath": "github.com/mitchellh/cli",
+			"repository": "https://github.com/mitchellh/cli",
+			"revision": "8102d0ed5ea2709ade1243798785888175f6e415",
 			"branch": "master"
 		},
 		{
-			"importpath": "github.com/bugsnag/osext",
-			"repository": "https://github.com/bugsnag/osext",
-			"revision": "0dd3f918b21bec95ace9dc86c7e70266cfc5c702",
+			"importpath": "github.com/mitchellh/colorstring",
+			"repository": "https://github.com/mitchellh/colorstring",
+			"revision": "8631ce90f28644f54aeedcb3e389a85174e067d1",
 			"branch": "master"
 		},
 		{
-			"importpath": "github.com/bugsnag/panicwrap",
-			"repository": "https://github.com/bugsnag/panicwrap",
-			"revision": "e5f9854865b9778a45169fc249e99e338d4d6f27",
-			"branch": "master"
-		},
-		{
-			"importpath": "github.com/codegangsta/cli",
-			"repository": "https://github.com/codegangsta/cli",
-			"revision": "f9982619ccace7df963bb7f6d1de3a6f014ff709",
-			"branch": "master"
-		},
-		{
-			"importpath": "github.com/getsentry/raven-go",
-			"repository": "https://github.com/getsentry/raven-go",
-			"revision": "b4cfeb65c7ac54358cf22498a85588836c50e159",
-			"branch": "master"
-		},
-		{
-			"importpath": "github.com/shirou/gopsutil",
+			"importpath": "github.com/shirou/gopsutil/common",
 			"repository": "https://github.com/shirou/gopsutil",
-			"revision": "0921e1f1536769f17ff188a253294adcbc4e2c03",
-			"branch": "master"
+			"revision": "6a274c3628382ab316340478300f5282b89f7778",
+			"branch": "master",
+			"path": "/common"
 		},
 		{
-			"importpath": "github.com/tobi/airbrake-go",
-			"repository": "https://github.com/tobi/airbrake-go",
-			"revision": "5b5e269e1bc398d43f67e43dafff3414a59cd5a2",
-			"branch": "master"
+			"importpath": "github.com/shirou/gopsutil/cpu",
+			"repository": "https://github.com/shirou/gopsutil",
+			"revision": "6a274c3628382ab316340478300f5282b89f7778",
+			"branch": "master",
+			"path": "/cpu"
 		},
 		{
-			"importpath": "github.com/ttacon/chalk",
-			"repository": "https://github.com/ttacon/chalk",
-			"revision": "e66ca4d608eb6dc36d012bceeb08ef9f379134c1",
-			"branch": "master"
+			"importpath": "github.com/shirou/gopsutil/host",
+			"repository": "https://github.com/shirou/gopsutil",
+			"revision": "6a274c3628382ab316340478300f5282b89f7778",
+			"branch": "master",
+			"path": "/host"
+		},
+		{
+			"importpath": "github.com/shirou/gopsutil/mem",
+			"repository": "https://github.com/shirou/gopsutil",
+			"revision": "6a274c3628382ab316340478300f5282b89f7778",
+			"branch": "master",
+			"path": "/mem"
+		},
+		{
+			"importpath": "golang.org/x/crypto/ssh/terminal",
+			"repository": "https://go.googlesource.com/crypto",
+			"revision": "c8b9e6388ef638d5a8a9d865c634befdc46a6784",
+			"branch": "master",
+			"path": "/ssh/terminal"
 		},
 		{
 			"importpath": "golang.org/x/sys/unix",
 			"repository": "https://go.googlesource.com/sys",
-			"revision": "b4e289961544fc90f340c908c3460ceae6a2202a",
+			"revision": "354f231ae1a9ca2d3a6a1a7c5d40b1213d761675",
 			"branch": "master",
 			"path": "/unix"
 		}

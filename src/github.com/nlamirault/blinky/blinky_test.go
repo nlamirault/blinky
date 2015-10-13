@@ -1,4 +1,4 @@
-// Copyright (C) 2015  Nicolas Lamirault <nicolas.lamirault@gmail.com>
+// Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,37 +13,4 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package commands
-
-import (
-	//"log"
-	//"os"
-
-	"github.com/codegangsta/cli"
-)
-
-// Commands is the CLI commands
-var Commands = []cli.Command{
-	{
-		Name:  "system",
-		Usage: "Informations about current system",
-		Subcommands: []cli.Command{
-			commandSystemInfos,
-		},
-	},
-	{
-		Name:  "logo",
-		Usage: "Operating systems logos",
-		Subcommands: []cli.Command{
-			commandLogoList,
-			commandLogoDist,
-		},
-	},
-	commandDisplay,
-}
-
-// Flags is the default arguments to the CLI.
-var verboseFlag = cli.BoolFlag{
-	Name:  "verbose",
-	Usage: "Show more output",
-}
+package main
