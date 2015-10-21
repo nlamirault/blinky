@@ -24,7 +24,7 @@ import (
 	"github.com/mitchellh/cli"
 	"github.com/mitchellh/colorstring"
 
-	"github.com/nlamirault/blinky/linux"
+	"github.com/nlamirault/blinky/utils"
 )
 
 type LogoCommand struct {
@@ -86,7 +86,7 @@ func (c *LogoCommand) Run(args []string) int {
 
 func (c *LogoCommand) doLogoList() {
 	c.UI.Info(colorstring.Color("[green] List logos"))
-	dists := linux.GetLinuxDistributions()
+	dists := utils.GetOperatingSystems()
 	log.Printf("[DEBUG] Linux distributions: %s", dists)
 	for _, dist := range dists {
 		c.UI.Output(fmt.Sprintf(" - %s", dist))
@@ -95,5 +95,5 @@ func (c *LogoCommand) doLogoList() {
 
 func (c *LogoCommand) doLogoDist(name string) {
 	log.Printf("[DEBUG] Distribution logo: " + name)
-	c.UI.Output(linux.GetLogo(name))
+	c.UI.Output(utils.GetLogo(name))
 }

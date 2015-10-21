@@ -13,7 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package linux
+package utils
 
 import (
 	"sort"
@@ -239,8 +239,8 @@ var (
 	}
 )
 
-// GetLinuxDistributions returns available logos
-func GetLinuxDistributions() []string {
+// GetOperatingSystems returns available logos
+func GetOperatingSystems() []string {
 	keys := make([]string, 0, len(logos))
 	for key := range logos {
 		keys = append(keys, key)

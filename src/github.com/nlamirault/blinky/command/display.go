@@ -28,6 +28,7 @@ import (
 	"github.com/shirou/gopsutil/mem"
 
 	"github.com/nlamirault/blinky/linux"
+	"github.com/nlamirault/blinky/utils"
 )
 
 type DisplayCommand struct {
@@ -69,7 +70,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 	log.Printf("[DEBUG] OS: %s", osrelease)
-	logo := linux.GetLogoFormat(osrelease.ID)
+	logo := utils.GetLogoFormat(osrelease.ID)
 	ossystem, kernel, err := linux.GetKernelInformations()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
