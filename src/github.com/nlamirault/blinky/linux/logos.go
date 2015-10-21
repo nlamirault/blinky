@@ -132,8 +132,114 @@ var (
 			blue + `             '` + yellow + ` :EEEEtttt::::z7       ` + "\n" +
 			yellow + `                 "VEzjt:;;z>*'       ` + "\n",
 	}
+
+	logosData = map[string]string{
+		"arch": cyan + `                   -` + "                     %s: %s\n" +
+			cyan + `                  o+` + "                     %s: %s\n" +
+			cyan + `                 ooo` + "                     %s: %s\n" +
+			cyan + `                +oooo:` + "                   %s: %s\n" +
+			cyan + `               +oooooo:` + "                  %s: %s\n" +
+			cyan + `              --+oooooo+:` + "                %s: %s\n" +
+			cyan + `             /:-:++oooo+:` + "\n" +
+			cyan + `            /++++/+++++++:` + "\n" +
+			cyan + `           /++++++++++++++:` + "\n" +
+			cyan + `          /+++o` + blue + `oooooooo` + cyan + `oooo/` + "\n" +
+			blue + `         ` + cyan + `./` + blue + `ooosssso++osssssso` + cyan + `+` + "\n" +
+			blue + `        .oossssso-\\\\/ossssss+` + "\n" +
+			blue + `       -osssssso.      :ssssssso.` + "\n" +
+			blue + `      :osssssss/        osssso+++.` + "\n" +
+			blue + `     /ossssssss/        +ssssooo/-` + "\n" +
+			blue + `    /ossssso+/:-        -:/+osssso+-` + "\n" +
+			blue + `   +sso+:-\                 \.-/+oso:` + "\n" +
+			blue + `  ++:.                           \-/+/` + "\n" +
+			blue + ` .\                                 \/` + "\n",
+		"debian": red + `       _,met$$$$$gg.           ` + "\n" +
+			red + `    ,g$$$$$$$$$$$$$$$P.       ` + "\n" +
+			red + `  ,g$$P""       """Y$$.".     ` + "\n" +
+			red + ` ,$$P'              '$$$.     ` + "\n" +
+			red + `',$$P       ,ggs.     '$$b:   ` + "\n" +
+			red + `'d$$'     ,$P"'   ` + white + `.` + red + `    $$$    ` + "\n" +
+			red + ` $$P      d$'     ` + white + `,` + red + `    $$P    ` + "\n" +
+			red + ` $$:      $$.   ` + white + `-` + red + `    ,d$$'    ` + "\n" +
+			red + ` $$\;      Y$b._   _,d$P'     ` + "\n" +
+			red + ` Y$$.    ` + white + `'.` + red + `'"Y$$$$P"'         ` + "\n" +
+			red + ` '$$b      ` + white + `"-.__              ` + "\n" +
+			red + `  'Y$$                        ` + "\n" +
+			red + `   'Y$$.                      ` + "\n" +
+			red + `     '$$b.                    ` + "\n" +
+			red + `       'Y$$b.                 ` + "\n" +
+			red + `          '"Y$b._             ` + "\n" +
+			red + `              '""""           ` + "\n",
+		"ubuntu": red + `                          ./+o+-       ` + "\n" +
+			white + `                  yyyyy- ` + red + `-yyyyyy+     ` + "\n" +
+			white + `               ` + white + `://+//////` + red + `-yyyyyyo     ` + "\n" +
+			yellow + `           .++ ` + white + `.:/++++++/-` + red + `.+sss/\     ` + "\n" +
+			yellow + `         .:++o:  ` + white + ` +/++++++++/:--:/-     ` + "\n" +
+			yellow + `        o:+o+:++. ` + white + `'..'''.-/oo+++++/    ` + "\n" +
+			yellow + `       .:+o:+o/.` + white + `         '+sssoo+/   ` + "\n" +
+			white + `  .++/+:` + yellow + `+oo+o:` + white + `             /sssooo.  ` + "\n" +
+			white + ` /+++//+:` + yellow + `'oo+o` + white + `               /::--:.  ` + "\n" +
+			white + ` \+/+o+++` + yellow + `'o++o` + red + `               ++////.  ` + "\n" +
+			white + `  .++.o+` + yellow + ` ++oo+:'` + red + `             /dddhhh.  ` + "\n" +
+			yellow + `       .+.o+oo:.` + red + `          \'oddhhhh+   ` + "\n" +
+			yellow + `        \+.++o+o\'` + red + `'-''''.:ohdhhhhh+    ` + "\n" +
+			yellow + `         ':o+++ ` + red + `'ohhhhhhhhyo++os:     ` + "\n" +
+			yellow + `           .o:` + red + `'.syhhhhhhh/` + yellow + `.oo++o'     ` + "\n" +
+			red + `               /osyyyyyyo` + yellow + `++ooo+++/    ` + "\n" +
+			red + `                   ''''' ` + yellow + `+oo+++o\:    ` + "\n" +
+			yellow + `                          'oo++.      ` + "\n",
+		"mint": green + `MMMMMMMMMMMMMMMMMMMMMMMMMmds+.       ` + "\n" +
+			green + `MMm----::-://////////////oymNMd+'    ` + "\n" +
+			green + `MMd      ` + white + `/++                ` + green + `-sNMd:   ` + "\n" +
+			green + `MMNso/'  ` + white + `dMM    '.::-. .-::.' ` + green + `.hMN:  ` + "\n" +
+			green + `ddddMMh  ` + white + `dMM   :hNMNMNhNMNMNh: ` + green + `'NMm  ` + "\n" +
+			green + `    NMm  ` + white + `dMM  .NMN/-+MMM+-/NMN' ` + green + `dMM  ` + "\n" +
+			green + `    NMm  ` + white + `dMM  -MMm  'MMM   dMM. ` + green + `dMM  ` + "\n" +
+			green + `    NMm  ` + white + `dMM  -MMm  'MMM   dMM. ` + green + `dMM  ` + "\n" +
+			green + `    NMm  ` + white + `dMM  .mmd  'mmm   yMM. ` + green + `dMM  ` + "\n" +
+			green + `    NMm  ` + white + `dMM'  ..'   ...   ydm. ` + green + `dMM  ` + "\n" +
+			green + `    hMM- ` + white + `+MMd/-------...-:sdds  ` + green + `dMM  ` + "\n" +
+			green + `    -NMm- ` + white + `:hNMNNNmdddddddddy/'  ` + green + `dMM  ` + "\n" +
+			green + `     -dMNs-` + white + `''-::::-------.''    ` + green + `dMM  ` + "\n" +
+			green + `      '/dMNmy+/:-------------:/yMMM  ` + "\n" +
+			green + `         ./ydNMMMMMMMMMMMMMMMMMMMMM  ` + "\n" +
+			green + `            \.MMMMMMMMMMMMMMMMMMM    ` + "\n",
+		"osx": green + `                  -/+:.          ` + "\n" +
+			green + `                 :++++.         ` + "\n" +
+			green + `                /+++/.          ` + "\n" +
+			green + `        .:-::- .+/:-''.::-      ` + "\n" +
+			green + `     .:/++++++/::::/++++++/:'   ` + "\n" +
+			yellow + `  .:///////////////////////:'  ` + "\n" +
+			yellow + `  ////////////////////////'    ` + "\n" +
+			orange + ` -+++++++++++++++++++++++'     ` + "\n" +
+			orange + ` /++++++++++++++++++++++/      ` + "\n" +
+			red + ` /sssssssssssssssssssssss.     ` + "\n" +
+			red + ` :ssssssssssssssssssssssss-    ` + "\n" +
+			purple + `  osssssssssssssssssssssssso/' ` + "\n" +
+			purple + `  'syyyyyyyyyyyyyyyyyyyyyyyy+' ` + "\n" +
+			blue + `   'ossssssssssssssssssssss/   ` + "\n" +
+			blue + `     :ooooooooooooooooooo+.    ` + "\n" +
+			blue + `      ':+oo+/:-..-:/+o+/-      ` + "\n",
+		"windows": red + `        ,.=:!!t3Z3z.,                 ` + "\n" +
+			red + `       :tt:::tt333EE3                ` + "\n" +
+			red + `       Et:::ztt33EEEL` + green + ` @Ee.,      .., ` + "\n" +
+			red + `      ;tt:::tt333EE7` + green + ` ;EEEEEEttttt33# ` + "\n" +
+			red + `     :Et:::zt333EEQ.` + green + ` $EEEEEttttt33QL ` + "\n" +
+			red + `     it::::tt333EEF` + green + ` @EEEEEEttttt33F  ` + "\n" +
+			red + `    ;3=*^'''"*4EEV` + green + ` :EEEEEEttttt33@.  ` + "\n" +
+			blue + `    ,.=::::!t=., ` + red + `'` + green + ` @EEEEEEtttz33QF   ` + "\n" +
+			blue + `   ;::::::::zt33)` + green + `   "4EEEtttji3P*    ` + "\n" +
+			blue + `  :t::::::::tt33.` + yellow + `:Z3z..` + green + `  '' ` + yellow + ` ,..g.    ` + "\n" +
+			blue + `  i::::::::zt33F` + yellow + ` AEEEtttt::::ztF     ` + "\n" +
+			blue + ` ;:::::::::t33V` + yellow + ` ;EEEttttt::::t3      ` + "\n" +
+			blue + ` E::::::::zt33L` + yellow + ` @EEEtttt::::z3F      ` + "\n" +
+			blue + `{3=*^'''"*4E3)` + yellow + ` ;EEEtttt:::::tZ'      ` + "\n" +
+			blue + `             '` + yellow + ` :EEEEtttt::::z7       ` + "\n" +
+			yellow + `                 "VEzjt:;;z>*'       ` + "\n",
+	}
 )
 
+// GetLinuxDistributions returns available logos
 func GetLinuxDistributions() []string {
 	keys := make([]string, 0, len(logos))
 	for key := range logos {
@@ -143,6 +249,13 @@ func GetLinuxDistributions() []string {
 	return keys
 }
 
+// GetLogo return logo which match distribution's name
 func GetLogo(name string) string {
 	return logos[name]
+}
+
+// GetLogoFormat return logo which match distribution's name
+// with formatting output
+func GetLogoFormat(name string) string {
+	return logosData[name]
 }

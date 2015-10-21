@@ -23,6 +23,9 @@ import (
 
 	"github.com/mitchellh/cli"
 	"github.com/mitchellh/colorstring"
+	"github.com/shirou/gopsutil/cpu"
+	"github.com/shirou/gopsutil/host"
+	"github.com/shirou/gopsutil/mem"
 
 	"github.com/nlamirault/blinky/linux"
 )
@@ -54,16 +57,54 @@ func (c *DisplayCommand) Run(args []string) int {
 		return 1
 	}
 	setupLogging(debug)
-	c.doDisplaySystemInformations()
-	return 0
+	return c.doDisplaySystemInformations()
 }
 
-func (c *DisplayCommand) doDisplaySystemInformations() {
-	c.UI.Info(colorstring.Color("[green] Display system informations"))
-	osrelease, _ := linux.GetOSRelease()
+func (c *DisplayCommand) doDisplaySystemInformations() int {
+	c.UI.Info("Display system informations")
+	osrelease, err := linux.GetOSRelease()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
 	log.Printf("[DEBUG] OS: %s", osrelease)
-	ossystem, _, _ := linux.GetKernelInformations()
-	c.UI.Output(fmt.Sprintf("OS: %s %s",
-		osrelease.PrettyName,
-		ossystem.Architecture))
+	logo := linux.GetLogoFormat(osrelease.ID)
+	ossystem, kernel, err := linux.GetKernelInformations()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+	hostInfo, err := host.HostInfo()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+	cpuinfo, err := cpu.CPUInfo()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+	vmem, err := mem.VirtualMemory()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	c.UI.Output(fmt.Sprintf(
+		logo,
+		colorstring.Color("[blue]OS"),
+		fmt.Sprintf("%s %s",
+			osrelease.PrettyName, ossystem.Architecture),
+		colorstring.Color("[blue]Kernel"),
+		kernel.Release,
+		colorstring.Color("[blue]Hostname"),
+		ossystem.Hostname,
+		colorstring.Color("[blue]Uptime"),
+		fmt.Sprintf("%d", hostInfo.Uptime),
+		colorstring.Color("[blue]Processor"),
+		cpuinfo[0].ModelName,
+		colorstring.Color("[blue]Mem"),
+		fmt.Sprintf("%d/%d %3d", vmem.Free, vmem.Total, vmem.UsedPercent),
+	))
+	return 0
 }
