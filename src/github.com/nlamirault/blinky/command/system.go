@@ -91,15 +91,16 @@ func (c *SystemCommand) doSystemInformations() int {
 		return 1
 	}
 	// Display system informations
-	c.UI.Output(fmt.Sprintf("OS: %s %s",
-		osrelease.PrettyName, ossystem.Architecture))
-	c.UI.Output(fmt.Sprintf("Hostname: %s", ossystem.Hostname))
-	c.UI.Output(fmt.Sprintf("Kernel: %s", kernel.Release))
-	c.UI.Output(fmt.Sprintf("Memory: %d/%d %d",
-		vmem.Free, vmem.Total, vmem.UsedPercent))
-	c.UI.Output(fmt.Sprintf("Processor: %s", cpuinfo[0].ModelName))
+	c.UI.Output(colorstring.Color("[blue]OS: ") +
+		fmt.Sprintf("%s %s", osrelease.PrettyName, ossystem.Architecture))
+	c.UI.Output(colorstring.Color("[blue]Hostname: ") + ossystem.Hostname)
+	c.UI.Output(colorstring.Color("[blue]Kernel: ") + kernel.Release)
+	c.UI.Output(colorstring.Color("[blue]Memory: ") +
+		fmt.Sprintf("%d/%d %d", vmem.Free, vmem.Total, vmem.UsedPercent))
+	c.UI.Output(colorstring.Color("[blue]Processor: ") + cpuinfo[0].ModelName)
 	// fmt.Println(chalk.Blue, "Platform:", chalk.Reset,
 	// 	platform, family, version)
-	c.UI.Output(fmt.Sprintf("Uptime:%s", hostInfo.Uptime))
+	c.UI.Output(colorstring.Color("[blue]Uptime: ") +
+		fmt.Sprintf("%d", hostInfo.Uptime))
 	return 0
 }
