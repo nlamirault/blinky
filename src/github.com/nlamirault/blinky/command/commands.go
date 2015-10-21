@@ -42,7 +42,7 @@ func init() {
 			ErrorWriter: os.Stderr,
 		},
 		OutputColor: cli.UiColorNone,
-		InfoColor:   cli.UiColorNone,
+		InfoColor:   cli.UiColorGreen,
 		ErrorColor:  cli.UiColorRed,
 	}
 
@@ -54,6 +54,11 @@ func init() {
 		},
 		"logo": func() (cli.Command, error) {
 			return &LogoCommand{
+				UI: UI,
+			}, nil
+		},
+		"display": func() (cli.Command, error) {
+			return &DisplayCommand{
 				UI: UI,
 			}, nil
 		},
