@@ -61,7 +61,8 @@ func (c *DisplayCommand) Run(args []string) int {
 }
 
 func (c *DisplayCommand) doDisplaySystemInformations() int {
-	c.UI.Info("Display system informations")
+	c.UI.Output("")
+	log.Printf("[DEBUG] Display system informations")
 	osrelease, err := linux.GetOSRelease()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
