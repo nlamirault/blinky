@@ -62,15 +62,18 @@ func (c *SystemCommand) Run(args []string) int {
 
 func (c *SystemCommand) doSystemInformations() int {
 	log.Printf("[DEBUG] Retrieve system informations")
+	osrelease, err := linux.GetOSRelease()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+	log.Printf("[DEBUG] OS: %s", osrelease)
 	cpuinfo, err := cpu.CPUInfo()
 	if err != nil {
-		c.UI.Error(colorstring.Color("[red] Erreur ") +
-			fmt.Sprintf(" : %s\n", err.Error()))
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
 	log.Printf("[DEBUG] CPU: %s", cpuinfo)
-	osrelease, _ := linux.GetOSRelease()
-	log.Printf("[DEBUG] OS: %s", osrelease)
 	ossystem, kernel, _ := linux.GetKernelInformations()
 	// platform, family, version, err := host.GetPlatformInformation()
 	// if err != nil {
@@ -79,15 +82,13 @@ func (c *SystemCommand) doSystemInformations() int {
 	// }
 	hostInfo, err := host.HostInfo()
 	if err != nil {
-		c.UI.Error(colorstring.Color("[red] Erreur ") +
-			fmt.Sprintf(" : %s\n", err.Error()))
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
 	log.Printf("[DEBUG] Host: %s", hostInfo)
 	vmem, err := mem.VirtualMemory()
 	if err != nil {
-		c.UI.Error(colorstring.Color("[red] Erreur ") +
-			fmt.Sprintf(" : %s\n", err.Error()))
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
 	// Display system informations
