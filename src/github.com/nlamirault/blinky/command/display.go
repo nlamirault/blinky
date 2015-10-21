@@ -31,10 +31,13 @@ import (
 	"github.com/nlamirault/blinky/utils"
 )
 
+// DisplayCommand represents the CLI command to display logos and system
+// informations
 type DisplayCommand struct {
 	UI cli.Ui
 }
 
+// Help defines the CLI command's help
 func (c *DisplayCommand) Help() string {
 	helpText := `
 Usage: blinky display [options]
@@ -45,10 +48,12 @@ Options:
 	return strings.TrimSpace(helpText)
 }
 
+// Synopsis defines the CLI command's synopsis
 func (c *DisplayCommand) Synopsis() string {
 	return "Display system informations"
 }
 
+// Run defines the CLI command
 func (c *DisplayCommand) Run(args []string) int {
 	var debug bool
 	f := flag.NewFlagSet("display", flag.ContinueOnError)

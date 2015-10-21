@@ -30,10 +30,13 @@ import (
 	"github.com/nlamirault/blinky/linux"
 )
 
+// SystemCommand represents the CLI command which display operation system
+// informations
 type SystemCommand struct {
 	UI cli.Ui
 }
 
+// Help defines the CLI command's help
 func (c *SystemCommand) Help() string {
 	helpText := `
 Usage: blinky system [options]
@@ -44,10 +47,12 @@ Options:
 	return strings.TrimSpace(helpText)
 }
 
+// Synopsis defines the CLI command's synopsis
 func (c *SystemCommand) Synopsis() string {
 	return "Display system informations"
 }
 
+// Run defines the CLI command
 func (c *SystemCommand) Run(args []string) int {
 	var debug bool
 	f := flag.NewFlagSet("system", flag.ContinueOnError)

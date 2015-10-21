@@ -34,6 +34,7 @@ type OSRelease struct {
 	VersionID  string
 }
 
+// OSSystem defines the operating system informations
 type OSSystem struct {
 	Domainname   string
 	Architecture string
@@ -47,6 +48,7 @@ type Kernel struct {
 	Version string
 }
 
+// GetKernelInformations extract informations from the Linux Kernel
 func GetKernelInformations() (*OSSystem, *Kernel, error) {
 	var buf unix.Utsname
 	err := unix.Uname(&buf)
@@ -64,6 +66,7 @@ func GetKernelInformations() (*OSSystem, *Kernel, error) {
 	return ossystem, kernel, nil
 }
 
+// GetOSRelease extract informations for the current operating system
 func GetOSRelease() (*OSRelease, error) {
 	osReleaseFile, err := os.Open("/etc/os-release")
 	if err != nil {

@@ -1,4 +1,4 @@
-// Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+// Copyright (C) 2015  Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,16 +14,3 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 package utils
-
-// CharsToString convert char to string
-func CharsToString(ca [65]int8) string {
-	s := make([]byte, len(ca))
-	var lens int
-	for ; lens < len(ca); lens++ {
-		if ca[lens] == 0 {
-			break
-		}
-		s[lens] = uint8(ca[lens])
-	}
-	return string(s[0:lens])
-}

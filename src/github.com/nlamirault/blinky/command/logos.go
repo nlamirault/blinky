@@ -27,10 +27,12 @@ import (
 	"github.com/nlamirault/blinky/utils"
 )
 
+// LogoCommand defines the command which manage operating systems logos.
 type LogoCommand struct {
 	UI cli.Ui
 }
 
+// Help defines the CLI command's help
 func (c *LogoCommand) Help() string {
 	helpText := `
 Usage: blinky logo [options] action
@@ -46,10 +48,12 @@ Action:
 	return strings.TrimSpace(helpText)
 }
 
+// Synopsis defines the CLI command's synopsis
 func (c *LogoCommand) Synopsis() string {
 	return "Operating systems logos"
 }
 
+// Run defines the CLI command
 func (c *LogoCommand) Run(args []string) int {
 	var debug bool
 	var name string

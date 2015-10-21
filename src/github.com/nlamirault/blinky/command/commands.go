@@ -30,9 +30,9 @@ var (
 	UI       cli.Ui
 )
 
-type Meta struct {
-	UI cli.Ui
-}
+// type Meta struct {
+// 	UI cli.Ui
+// }
 
 func init() {
 	UI = &cli.ColoredUi{
