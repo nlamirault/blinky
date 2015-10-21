@@ -1,20 +1,19 @@
 # Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 APP="blinky"
-EXE="blinky"
+EXE="bin/blinky"
 
 SHELL = /bin/bash
 
@@ -29,8 +28,13 @@ OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
+SRC=src/github.com/nlamirault/blinky
+
+SRCS = $(shell git ls-files '*.go' | grep -v '^vendor/')
+PKGS = $(shell find src -type f -print0 | xargs -0 -n 1 dirname | sort -u|sed -e "s/^src\///g")
+
 VERSION=$(shell \
-        grep "const Version" src/github.com/nlamirault/blinky/version/version.go \
+        grep "const Version" $(SRC)/version/version.go \
         |awk -F'=' '{print $$2}' \
         |sed -e "s/[^0-9.]//g" \
 	|sed -e "s/ //g")
@@ -42,39 +46,59 @@ all: help
 
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
-	@echo -e "$(WARN_COLOR)init$(NO_COLOR)   :  Install requirements"
-	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)   :  Install dependencies"
-	@echo -e "$(WARN_COLOR)build$(NO_COLOR)  :  Make all binaries"
-	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)  :  Cleanup"
-	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)  :  Remove all dependencies"
+	@echo -e "$(WARN_COLOR)init$(NO_COLOR)     :  Install requirements"
+	@echo -e "$(WARN_COLOR)build$(NO_COLOR)    :  Make all binaries"
+	@echo -e "$(WARN_COLOR)test$(NO_COLOR)     :  Launch unit tests"
+	@echo -e "$(WARN_COLOR)lint$(NO_COLOR)     :  Launch golint"
+	@echo -e "$(WARN_COLOR)vet$(NO_COLOR)      :  Launch go vet"
+	@echo -e "$(WARN_COLOR)coverage$(NO_COLOR) :  Launch code coverage"
+	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)    :  Cleanup"
+	@echo -e "$(WARN_COLOR)release$(NO_COLOR)  :  Make a new release"
 
 clean:
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz coverage.out gover.coverprofile
+	@rm -fr $(EXE) $(APP)-*.tar.gz pkg bin $(APP)_*
 
 .PHONY: init
 init:
 	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
-	@go get github.com/constabulary/gb/...
+	@go get -u github.com/golang/glog
+	@go get -u github.com/constabulary/gb/...
+	@go get -u github.com/golang/lint/golint
+	@go get -u github.com/kisielk/errcheck
 
+.PHONY: build
 build:
 	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
-	@$(GB) build
+	@$(GB) build all
 
+.PHONY: test
 test:
 	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
-	@$(GB) test
+	@$(GB) test all -test.v=true
 
-deps:
-	@echo -e "$(OK_COLOR)[$(APP)] Display dependencies $(NO_COLOR)"
-	@$(GB) vendor list
+.PHONY: lint
+lint:
+	@echo -e "$(OK_COLOR)[$(APP)] go lint $(NO_COLOR)"
+	@$(foreach file,$(SRCS),golint $(file) || exit;)
 
-doc:
-	@GOPATH=$(GO_PATH) godoc -http=:6060 -index
+.PHONY: vet
+vet:
+	@echo -e "$(OK_COLOR)[$(APP)] go vet $(NO_COLOR)"
+	@$(foreach file,$(SRCS),go vet $(file) || exit;)
 
+.PHONY: errcheck
+errcheck:
+	@echo -e "$(OK_COLOR)[$(APP)] Go Errcheck $(NO_COLOR)"
+	@$(foreach pkg,$(PKGS),env GOPATH=`pwd`:`pwd`/vendor errcheck $(pkg) || exit;)
 
+.PHONY: coverage
+coverage:
+	@echo -e "$(OK_COLOR)[$(APP)] Code coverage $(NO_COLOR)"
+	@$(foreach pkg,$(PKGS),env GOPATH=`pwd`:`pwd`/vendor go test -cover $(pkg) || exit;)
 
-release: clean build
+.PHONY: release
+release: clean build test lint vet
 	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"
 	@rm -fr $(PACKAGE) && mkdir $(PACKAGE)
 	@cp -r $(EXE) $(PACKAGE)
@@ -83,6 +107,7 @@ release: clean build
 	@rm -fr $(PACKAGE)
 	@addons/github.sh $(VERSION)
 
-# for go-projectile
+# for goprojectile
+.PHONY: gopath
 gopath:
-	@echo ${GOPATH}
+	@echo `pwd`:`pwd`/vendor
