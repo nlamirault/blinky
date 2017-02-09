@@ -6,6 +6,7 @@ Blinky
 [Blinky][] could be used to generate to display system informations
 and/or ASCII distributions logos.
 
+![Screenshot](blinky-0.3.0.png)
 
 ```bash
 $ blinky system infos
