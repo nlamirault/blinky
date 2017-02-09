@@ -1,0 +1,103 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "RNpWGtnUrAtjgpPaTo3rOQFIjd8=",
+			"path": "github.com/StackExchange/wmi",
+			"revision": "e542ed97d15e640bdc14b5c12162d59e8fc67324",
+			"revisionTime": "2017-02-09T00:17:00Z"
+		},
+		{
+			"checksumSHA1": "gNO0JNpLzYOdInGeq7HqMZUzx9M=",
+			"path": "github.com/armon/go-radix",
+			"revision": "4239b77079c7b5d1243b7b4736304ce8ddb6f0f2",
+			"revisionTime": "2016-01-15T23:47:25Z"
+		},
+		{
+			"checksumSHA1": "Isa9x3nvIJ12hvgdvUUBty+yplU=",
+			"path": "github.com/bgentry/speakeasy",
+			"revision": "675b82c74c0ed12283ee81ba8a534c8982c07b85",
+			"revisionTime": "2016-10-13T10:26:35Z"
+		},
+		{
+			"checksumSHA1": "wDZdTaY9JiqqqnF4c3pHP71nWmk=",
+			"path": "github.com/go-ole/go-ole",
+			"revision": "de8695c8edbf8236f30d6e1376e20b198a028d42",
+			"revisionTime": "2017-02-09T15:13:32Z"
+		},
+		{
+			"checksumSHA1": "Q0ZOcJW0fqOefDzEdn+PJHOeSgI=",
+			"path": "github.com/go-ole/go-ole/oleutil",
+			"revision": "de8695c8edbf8236f30d6e1376e20b198a028d42",
+			"revisionTime": "2017-02-09T15:13:32Z"
+		},
+		{
+			"checksumSHA1": "vt+P9D2yWDO3gdvdgCzwqunlhxU=",
+			"path": "github.com/hashicorp/logutils",
+			"revision": "0dc08b1671f34c4250ce212759ebd880f743d883",
+			"revisionTime": "2015-06-09T07:04:31Z"
+		},
+		{
+			"checksumSHA1": "xZuhljnmBysJPta/lMyYmJdujCg=",
+			"path": "github.com/mattn/go-isatty",
+			"revision": "30a891c33c7cde7b02a981314b4228ec99380cca",
+			"revisionTime": "2016-11-23T14:36:37Z"
+		},
+		{
+			"checksumSHA1": "W6WsJ7dtBT0coA3S5FpGR0k4IEU=",
+			"path": "github.com/mitchellh/cli",
+			"revision": "494eb006fe29e9dc75fea6da4df4818f7e046b73",
+			"revisionTime": "2017-02-08T07:23:55Z"
+		},
+		{
+			"checksumSHA1": "zW2k8E1gkuySzTz2eXuSEDhpffY=",
+			"path": "github.com/shirou/gopsutil/cpu",
+			"revision": "b62e301a8b9958eebb7299683eb57fab229a9501",
+			"revisionTime": "2017-02-08T02:55:55Z"
+		},
+		{
+			"checksumSHA1": "GsqEEmGv6sj8DreS2SYXRkoZ9NI=",
+			"path": "github.com/shirou/gopsutil/host",
+			"revision": "b62e301a8b9958eebb7299683eb57fab229a9501",
+			"revisionTime": "2017-02-08T02:55:55Z"
+		},
+		{
+			"checksumSHA1": "hz9RxkaV3Tnju2eiHBWO/Yv7n5c=",
+			"path": "github.com/shirou/gopsutil/internal/common",
+			"revision": "b62e301a8b9958eebb7299683eb57fab229a9501",
+			"revisionTime": "2017-02-08T02:55:55Z"
+		},
+		{
+			"checksumSHA1": "XQwjGKI51Y3aQ3/jNyRh9Gnprgg=",
+			"path": "github.com/shirou/gopsutil/mem",
+			"revision": "b62e301a8b9958eebb7299683eb57fab229a9501",
+			"revisionTime": "2017-02-08T02:55:55Z"
+		},
+		{
+			"checksumSHA1": "OSvOZs5uK5iolCOeS46nB2InVy8=",
+			"path": "github.com/shirou/gopsutil/net",
+			"revision": "b62e301a8b9958eebb7299683eb57fab229a9501",
+			"revisionTime": "2017-02-08T02:55:55Z"
+		},
+		{
+			"checksumSHA1": "JX0bRK/BdKVfbm4XOxMducVdY58=",
+			"path": "github.com/shirou/gopsutil/process",
+			"revision": "b62e301a8b9958eebb7299683eb57fab229a9501",
+			"revisionTime": "2017-02-08T02:55:55Z"
+		},
+		{
+			"checksumSHA1": "Nve7SpDmjsv6+rhkXAkfg/UQx94=",
+			"path": "github.com/shirou/w32",
+			"revision": "bb4de0191aa41b5507caa14b0650cdbddcd9280b",
+			"revisionTime": "2016-09-30T03:27:40Z"
+		},
+		{
+			"checksumSHA1": "uTQtOqR0ePMMcvuvAIksiIZxhqU=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "7a6e5648d140666db5d920909e082ca00a87ba2c",
+			"revisionTime": "2017-02-01T04:15:14Z"
+		}
+	],
+	"rootPath": "github.com/nlamirault/blinky"
+}

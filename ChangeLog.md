@@ -1,6 +1,11 @@
 Changelog
 ===========
 
+## Version 0.3.0 (02/09/2017)
+
+- Vendoring and update dependencies
+- Refactoring using *govendor*
+
 ## Version 0.2.0 (10/13/2015)
 
 - Refactoring using GB

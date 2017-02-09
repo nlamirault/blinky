@@ -1,20 +1,24 @@
-# Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# Copyright (C) 2015-2017 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
+APP = blinky
 
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-APP="blinky"
-EXE="blinky"
+VERSION=$(shell \
+        grep "const Version" version/version.go \
+        |awk -F'=' '{print $$2}' \
+        |sed -e "s/[^0-9.]//g" \
+	|sed -e "s/ //g")
 
 SHELL = /bin/bash
 
@@ -22,67 +26,97 @@ DIR = $(shell pwd)
 
 DOCKER = docker
 
-GB = gb
+GO = go
+
+GOX = gox -osarch="linux/amd64 linux/386" # darwin windows freebsd openbsd netbsd"
+GOX_ARGS = "-output={{.Dir}}-$(VERSION)_{{.OS}}_{{.Arch}}"
+
+BINTRAY_URI = https://api.bintray.com
+BINTRAY_USERNAME = nlamirault
+BINTRAY_ORG = nlamirault
+BINTRAY_REPOSITORY= oss
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
-VERSION=$(shell \
-        grep "const Version" src/github.com/nlamirault/blinky/version/version.go \
-        |awk -F'=' '{print $$2}' \
-        |sed -e "s/[^0-9.]//g" \
-	|sed -e "s/ //g")
+MAKE_COLOR=\033[33;01m%-20s\033[0m
+
+SRCS = $(shell git ls-files '*.go' | grep -v '^vendor/')
+EXE = $(shell ls blinky-*_*)
 
 PACKAGE=$(APP)-$(VERSION)
 ARCHIVE=$(PACKAGE).tar
+PKGS = $(shell go list ./... | grep -v /vendor/)
 
-all: help
+.DEFAULT_GOAL := help
 
+.PHONY: help
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
-	@echo -e "$(WARN_COLOR)init$(NO_COLOR)   :  Install requirements"
-	@echo -e "$(WARN_COLOR)deps$(NO_COLOR)   :  Install dependencies"
-	@echo -e "$(WARN_COLOR)build$(NO_COLOR)  :  Make all binaries"
-	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)  :  Cleanup"
-	@echo -e "$(WARN_COLOR)reset$(NO_COLOR)  :  Remove all dependencies"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "$(MAKE_COLOR) : %s\n", $$1, $$2}'
 
-clean:
+clean: ## Cleanup
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -f $(EXE) $(EXE)_* $(APP)-*.tar.gz coverage.out gover.coverprofile
+	@rm -fr $(APP) $(EXE) $(APP)-*.tar.gz
 
 .PHONY: init
-init:
+init: ## Install requirements
 	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
-	@go get github.com/constabulary/gb/...
+	@go get -u github.com/golang/glog
+	@go get -u github.com/kardianos/govendor
+	@go get -u github.com/Masterminds/rmvcsdir
+	@go get -u github.com/golang/lint/golint
+	@go get -u github.com/kisielk/errcheck
+	@go get -u github.com/mitchellh/gox
 
-build:
+.PHONY: deps
+deps: ## Install dependencies
+	@echo -e "$(OK_COLOR)[$(APP)] Update dependencies$(NO_COLOR)"
+	@govendor update
+
+.PHONY: build
+build: ## Make binary
 	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
-	@$(GB) build
+	@$(GO) build .
 
-test:
+.PHONY: test
+test: ## Launch unit tests
 	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
-	@$(GB) test
+	@govendor test +local
 
-deps:
-	@echo -e "$(OK_COLOR)[$(APP)] Display dependencies $(NO_COLOR)"
-	@$(GB) vendor list
+.PHONY: lint
+lint: ## Launch golint
+	@$(foreach file,$(SRCS),golint $(file) || exit;)
 
-doc:
-	@GOPATH=$(GO_PATH) godoc -http=:6060 -index
+.PHONY: vet
+vet: ## Launch go vet
+	@$(foreach file,$(SRCS),$(GO) vet $(file) || exit;)
 
+.PHONY: errcheck
+errcheck: ## Launch go errcheck
+	@echo -e "$(OK_COLOR)[$(APP)] Go Errcheck $(NO_COLOR)"
+	@$(foreach pkg,$(PKGS),errcheck $(pkg) $(glide novendor) || exit;)
 
+.PHONY: coverage
+coverage: ## Launch code coverage
+	@$(foreach pkg,$(PKGS),$(GO) test -cover $(pkg) $(glide novendor) || exit;)
 
-release: clean build
-	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"
-	@rm -fr $(PACKAGE) && mkdir $(PACKAGE)
-	@cp -r $(EXE) $(PACKAGE)
-	@tar cf $(ARCHIVE) $(PACKAGE)
-	@gzip $(ARCHIVE)
-	@rm -fr $(PACKAGE)
-	@addons/github.sh $(VERSION)
+gox: ## Make all binaries
+	@echo -e "$(OK_COLOR)[$(APP)] Create binaries $(NO_COLOR)"
+	$(GOX) $(GOX_ARGS) github.com/nlamirault/blinky
 
-# for go-projectile
+.PHONY: binaries
+binaries: ## Upload all binaries
+	@echo -e "$(OK_COLOR)[$(APP)] Upload binaries to Bintray $(NO_COLOR)"
+	for i in $(EXE); do \
+		curl -T $$i \
+			-u$(BINTRAY_USERNAME):$(BINTRAY_APIKEY) \
+			"$(BINTRAY_URI)/content/$(BINTRAY_ORG)/$(BINTRAY_REPOSITORY)/$(APP)/${VERSION}/$$i;publish=1"; \
+        done
+
+# for goprojectile
+.PHONY: gopath
 gopath:
-	@echo ${GOPATH}
+	@echo `pwd`:`pwd`/vendor
