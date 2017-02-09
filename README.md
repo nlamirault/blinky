@@ -8,6 +8,16 @@ and/or ASCII distributions logos.
 
 ![Screenshot](blinky-0.3.0.png)
 
+## Installation
+
+You can download the binaries :
+
+* Architecture i386 [ [linux](https://bintray.com/artifact/download/nlamirault/oss/helmsman-0.1.0_linux_386) ]
+* Architecture amd64 [ [linux](https://bintray.com/artifact/download/nlamirault/oss/helmsman-0.1.0_linux_amd64) ]
+* Architecture arm [ ]
+
+## Usage
+
 ```bash
 $ blinky system infos
 OS: Arch Linux x86_64
@@ -78,19 +88,19 @@ $ blinky display
 
 ```
 
-## Support / Contribute
+## Contributing
 
 See [here](CONTRIBUTING.md)
 
 
 ## Changelog
 
-A changelog is available [here](ChangeLog.md).
+A [ChangeLog](ChangeLog.md) is available.
 
 
 ## License
 
-See [LICENSE](LICENSE).
+See [LICENSE](LICENSE) for the complete license..
 
 
 ## Contact
