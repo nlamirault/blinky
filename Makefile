@@ -1,4 +1,4 @@
-# Copyright (C) 2016, 2017 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# Copyright (C) 2015-2017 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ WARN_COLOR=\033[33;01m
 
 MAKE_COLOR=\033[33;01m%-20s\033[0m
 
-MAIN = github.com/pilotariak/chione
+MAIN = github.com/pilotariak/blinky
 SRCS = $(shell git ls-files '*.go' | grep -v '^vendor/')
 EXE = $(shell ls blinky-*_*)
 

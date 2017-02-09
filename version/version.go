@@ -1,4 +1,4 @@
-// Copyright (C) 2015  Nicolas Lamirault <nicolas.lamirault@gmail.com>
+// Copyright (C) 2015-2017 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,4 +16,4 @@
 package version
 
 // Version represents the application version using SemVer
-const Version string = "0.2.0"
+const Version string = "0.3.0"
