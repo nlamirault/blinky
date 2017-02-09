@@ -1,4 +1,4 @@
-# Copyright (C) 2015 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+# Copyright (C) 2016, 2017 Nicolas Lamirault <nicolas.lamirault@gmail.com>
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-APP="blinky"
-EXE="bin/blinky"
+APP = blinky
+
+VERSION=$(shell \
+        grep "const Version" version/version.go \
+        |awk -F'=' '{print $$2}' \
+        |sed -e "s/[^0-9.]//g" \
+	|sed -e "s/ //g")
 
 SHELL = /bin/bash
 
@@ -21,93 +26,98 @@ DIR = $(shell pwd)
 
 DOCKER = docker
 
-GB = gb
+GO = go
+
+GOX = gox -os="linux darwin windows freebsd openbsd netbsd"
+GOX_ARGS = "-output={{.Dir}}-$(VERSION)_{{.OS}}_{{.Arch}}"
+
+BINTRAY_URI = https://api.bintray.com
+BINTRAY_USERNAME = nlamirault
+BINTRAY_ORG = nlamirault
+BINTRAY_REPOSITORY= oss
 
 NO_COLOR=\033[0m
 OK_COLOR=\033[32;01m
 ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
-SRC=src/github.com/nlamirault/blinky
+MAKE_COLOR=\033[33;01m%-20s\033[0m
 
+MAIN = github.com/pilotariak/chione
 SRCS = $(shell git ls-files '*.go' | grep -v '^vendor/')
-PKGS = $(shell find src -type f -print0 | xargs -0 -n 1 dirname | sort -u|sed -e "s/^src\///g")
-
-VERSION=$(shell \
-        grep "const Version" $(SRC)/version/version.go \
-        |awk -F'=' '{print $$2}' \
-        |sed -e "s/[^0-9.]//g" \
-	|sed -e "s/ //g")
+EXE = $(shell ls blinky-*_*)
 
 PACKAGE=$(APP)-$(VERSION)
 ARCHIVE=$(PACKAGE).tar
+PKGS = $(shell go list ./... | grep -v /vendor/)
 
-all: help
+.DEFAULT_GOAL := help
 
+.PHONY: help
 help:
 	@echo -e "$(OK_COLOR)==== $(APP) [$(VERSION)] ====$(NO_COLOR)"
-	@echo -e "$(WARN_COLOR)init$(NO_COLOR)     :  Install requirements"
-	@echo -e "$(WARN_COLOR)build$(NO_COLOR)    :  Make all binaries"
-	@echo -e "$(WARN_COLOR)test$(NO_COLOR)     :  Launch unit tests"
-	@echo -e "$(WARN_COLOR)lint$(NO_COLOR)     :  Launch golint"
-	@echo -e "$(WARN_COLOR)vet$(NO_COLOR)      :  Launch go vet"
-	@echo -e "$(WARN_COLOR)coverage$(NO_COLOR) :  Launch code coverage"
-	@echo -e "$(WARN_COLOR)clean$(NO_COLOR)    :  Cleanup"
-	@echo -e "$(WARN_COLOR)release$(NO_COLOR)  :  Make a new release"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "$(MAKE_COLOR) : %s\n", $$1, $$2}'
 
-clean:
+clean: ## Cleanup
 	@echo -e "$(OK_COLOR)[$(APP)] Cleanup$(NO_COLOR)"
-	@rm -fr $(EXE) $(APP)-*.tar.gz pkg bin $(APP)_*
+	@rm -fr $(APP) $(EXE) $(APP)-*.tar.gz
 
 .PHONY: init
-init:
+init: ## Install requirements
 	@echo -e "$(OK_COLOR)[$(APP)] Install requirements$(NO_COLOR)"
 	@go get -u github.com/golang/glog
-	@go get -u github.com/constabulary/gb/...
+	@go get -u github.com/kardianos/govendor
+	@go get -u github.com/Masterminds/rmvcsdir
 	@go get -u github.com/golang/lint/golint
 	@go get -u github.com/kisielk/errcheck
+	@go get -u github.com/mitchellh/gox
+
+.PHONY: deps
+deps: ## Install dependencies
+	@echo -e "$(OK_COLOR)[$(APP)] Update dependencies$(NO_COLOR)"
+	@govendor update
 
 .PHONY: build
-build:
+build: ## Make binary
 	@echo -e "$(OK_COLOR)[$(APP)] Build $(NO_COLOR)"
-	@$(GB) build all
+	@$(GO) build .
 
 .PHONY: test
-test:
+test: ## Launch unit tests
 	@echo -e "$(OK_COLOR)[$(APP)] Launch unit tests $(NO_COLOR)"
-	@$(GB) test all -test.v=true
+	@govendor test +local
 
 .PHONY: lint
-lint:
-	@echo -e "$(OK_COLOR)[$(APP)] go lint $(NO_COLOR)"
+lint: ## Launch golint
 	@$(foreach file,$(SRCS),golint $(file) || exit;)
 
 .PHONY: vet
-vet:
-	@echo -e "$(OK_COLOR)[$(APP)] go vet $(NO_COLOR)"
-	@$(foreach file,$(SRCS),go vet $(file) || exit;)
+vet: ## Launch go vet
+	@$(foreach file,$(SRCS),$(GO) vet $(file) || exit;)
 
 .PHONY: errcheck
-errcheck:
+errcheck: ## Launch go errcheck
 	@echo -e "$(OK_COLOR)[$(APP)] Go Errcheck $(NO_COLOR)"
-	@$(foreach pkg,$(PKGS),env GOPATH=`pwd`:`pwd`/vendor errcheck $(pkg) || exit;)
+	@$(foreach pkg,$(PKGS),errcheck $(pkg) $(glide novendor) || exit;)
 
 .PHONY: coverage
-coverage:
-	@echo -e "$(OK_COLOR)[$(APP)] Code coverage $(NO_COLOR)"
-	@$(foreach pkg,$(PKGS),env GOPATH=`pwd`:`pwd`/vendor go test -cover $(pkg) || exit;)
+coverage: ## Launch code coverage
+	@$(foreach pkg,$(PKGS),$(GO) test -cover $(pkg) $(glide novendor) || exit;)
 
-.PHONY: release
-release: clean build test lint vet
-	@echo -e "$(OK_COLOR)[$(APP)] Make archive $(VERSION) $(NO_COLOR)"
-	@rm -fr $(PACKAGE) && mkdir $(PACKAGE)
-	@cp -r $(EXE) $(PACKAGE)
-	@tar cf $(ARCHIVE) $(PACKAGE)
-	@gzip $(ARCHIVE)
-	@rm -fr $(PACKAGE)
-	@addons/github.sh $(VERSION)
+gox: ## Make all binaries
+	@echo -e "$(OK_COLOR)[$(APP)] Create binaries $(NO_COLOR)"
+	$(GOX) $(GOX_ARGS) github.com/nlamirault/chione
+
+.PHONY: binaries
+binaries: ## Upload all binaries
+	@echo -e "$(OK_COLOR)[$(APP)] Upload binaries to Bintray $(NO_COLOR)"
+	for i in $(EXE); do \
+		curl -T $$i \
+			-u$(BINTRAY_USERNAME):$(BINTRAY_APIKEY) \
+			"$(BINTRAY_URI)/content/$(BINTRAY_ORG)/$(BINTRAY_REPOSITORY)/$(APP)/${VERSION}/$$i;publish=1"; \
+        done
 
 # for goprojectile
 .PHONY: gopath
 gopath:
-	@echo "`pwd`:`pwd`/vendor"
+	@echo `pwd`:`pwd`/vendor
