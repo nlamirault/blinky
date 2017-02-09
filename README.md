@@ -12,8 +12,8 @@ and/or ASCII distributions logos.
 
 You can download the binaries :
 
-* Architecture i386 [ [linux](https://bintray.com/artifact/download/nlamirault/oss/helmsman-0.1.0_linux_386) ]
-* Architecture amd64 [ [linux](https://bintray.com/artifact/download/nlamirault/oss/helmsman-0.1.0_linux_amd64) ]
+* Architecture i386 [ [linux](https://bintray.com/artifact/download/nlamirault/oss/blinky-0.3.0_linux_386) ]
+* Architecture amd64 [ [linux](https://bintray.com/artifact/download/nlamirault/oss/blinky-0.3.0_linux_amd64) ]
 * Architecture arm [ ]
 
 ## Usage

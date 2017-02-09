@@ -28,7 +28,7 @@ DOCKER = docker
 
 GO = go
 
-GOX = gox -os="linux darwin windows freebsd openbsd netbsd"
+GOX = gox -osarch="linux/amd64 linux/386" # darwin windows freebsd openbsd netbsd"
 GOX_ARGS = "-output={{.Dir}}-$(VERSION)_{{.OS}}_{{.Arch}}"
 
 BINTRAY_URI = https://api.bintray.com
@@ -43,7 +43,6 @@ WARN_COLOR=\033[33;01m
 
 MAKE_COLOR=\033[33;01m%-20s\033[0m
 
-MAIN = github.com/pilotariak/blinky
 SRCS = $(shell git ls-files '*.go' | grep -v '^vendor/')
 EXE = $(shell ls blinky-*_*)
 
@@ -106,7 +105,7 @@ coverage: ## Launch code coverage
 
 gox: ## Make all binaries
 	@echo -e "$(OK_COLOR)[$(APP)] Create binaries $(NO_COLOR)"
-	$(GOX) $(GOX_ARGS) github.com/nlamirault/chione
+	$(GOX) $(GOX_ARGS) github.com/nlamirault/blinky
 
 .PHONY: binaries
 binaries: ## Upload all binaries
