@@ -1,6 +1,12 @@
 Changelog
 ===========
 
+## Version 0.4.0 (06/06/2017)
+
+- Add computer model
+- Add desktop and shell informations
+- Refactoring operating system informations
+
 ## Version 0.3.0 (02/09/2017)
 
 - Vendoring and update dependencies

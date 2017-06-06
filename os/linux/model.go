@@ -16,3 +16,27 @@
 // +build linux
 
 package linux
+
+import (
+	"bytes"
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
+
+func (linux linuxOS) GetModel() (string, error) {
+	var buffer bytes.Buffer
+
+	productName, err := ioutil.ReadFile("/sys/devices/virtual/dmi/id/product_name")
+	if err != nil {
+		return "", err
+	}
+
+	productVersion, err := ioutil.ReadFile("/sys/devices/virtual/dmi/id/product_version")
+	if err != nil {
+		return "", err
+	}
+
+	buffer.WriteString(fmt.Sprintf("%s %s", strings.TrimSpace(string(productName)), strings.TrimSpace(string(productVersion))))
+	return buffer.String(), nil
+}

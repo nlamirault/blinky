@@ -26,8 +26,6 @@ import (
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
-
-	"github.com/nlamirault/blinky/linux"
 )
 
 // SystemCommand represents the CLI command which display operation system
@@ -67,40 +65,32 @@ func (c *SystemCommand) Run(args []string) int {
 
 func (c *SystemCommand) doSystemInformations() int {
 	log.Printf("[DEBUG] Retrieve system informations")
-	osrelease, err := linux.GetOSRelease()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
-		return 1
-	}
-	log.Printf("[DEBUG] OS: %s", osrelease)
+
 	cpuinfo, err := cpu.Info()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
 	log.Printf("[DEBUG] CPU: %s", cpuinfo)
-	ossystem, kernel, _ := linux.GetKernelInformations()
-	// platform, family, version, err := host.GetPlatformInformation()
-	// if err != nil {
-	// 	log.Errorf("Error: %v", err)
-	// 	return
-	// }
+
 	hostInfo, err := host.Info()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
 	log.Printf("[DEBUG] Host: %s", hostInfo)
+
 	vmem, err := mem.VirtualMemory()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
+
 	// Display system informations
 	c.UI.Output(colorstring.Color("[blue]OS: ") +
-		fmt.Sprintf("%s %s", osrelease.PrettyName, ossystem.Architecture))
-	c.UI.Output(colorstring.Color("[blue]Hostname: ") + ossystem.Hostname)
-	c.UI.Output(colorstring.Color("[blue]Kernel: ") + kernel.Release)
+		fmt.Sprintf("%s", hostInfo.PlatformFamily))
+	c.UI.Output(colorstring.Color("[blue]Hostname: ") + hostInfo.Hostname)
+	c.UI.Output(colorstring.Color("[blue]Kernel: ") + hostInfo.KernelVersion)
 	c.UI.Output(colorstring.Color("[blue]Memory: ") +
 		fmt.Sprintf("%d/%d %d", vmem.Free, vmem.Total, vmem.UsedPercent))
 	c.UI.Output(colorstring.Color("[blue]Processor: ") + cpuinfo[0].ModelName)

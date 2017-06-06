@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/mitchellh/cli"
 	"github.com/mitchellh/colorstring"
@@ -27,7 +28,8 @@ import (
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
 
-	"github.com/nlamirault/blinky/linux"
+	"github.com/nlamirault/blinky/os"
+	_ "github.com/nlamirault/blinky/os/linux"
 	"github.com/nlamirault/blinky/utils"
 )
 
@@ -69,29 +71,58 @@ func (c *DisplayCommand) Run(args []string) int {
 func (c *DisplayCommand) doDisplaySystemInformations() int {
 	c.UI.Output("")
 	log.Printf("[DEBUG] Display system informations")
-	osrelease, err := linux.GetOSRelease()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
-		return 1
-	}
-	log.Printf("[DEBUG] OS: %s", osrelease)
-	logo := utils.GetLogoFormat(osrelease.ID)
-	ossystem, kernel, err := linux.GetKernelInformations()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
-		return 1
-	}
+
 	hostInfo, err := host.Info()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
-	cpuinfo, err := cpu.Info()
+	log.Printf("[DEBUG] Host: %s", hostInfo)
+
+	cpuInfo, err := cpu.Info()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
+	log.Printf("[DEBUG] CPU: %s", cpuInfo)
+
 	vmem, err := mem.VirtualMemory()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	logo, err := utils.GetLogoFormat(hostInfo.PlatformFamily)
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	uptime, err := time.ParseDuration(fmt.Sprintf("%ds", hostInfo.Uptime))
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	os, err := os.New(hostInfo.OS)
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	model, err := os.GetModel()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	desktopName, err := os.GetDesktop()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	shellName, err := os.GetShell()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
@@ -100,18 +131,23 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 	c.UI.Output(fmt.Sprintf(
 		logo,
 		colorstring.Color("[blue]OS"),
-		fmt.Sprintf("%s %s",
-			osrelease.PrettyName, ossystem.Architecture),
+		fmt.Sprintf("%s", hostInfo.PlatformFamily),
+		colorstring.Color("[blue]Model"),
+		fmt.Sprintf("%s", model),
 		colorstring.Color("[blue]Kernel"),
-		kernel.Release,
+		hostInfo.KernelVersion,
 		colorstring.Color("[blue]Hostname"),
-		ossystem.Hostname,
+		hostInfo.Hostname,
 		colorstring.Color("[blue]Uptime"),
-		fmt.Sprintf("%d", hostInfo.Uptime),
+		fmt.Sprintf("%s", uptime),
 		colorstring.Color("[blue]Processor"),
-		cpuinfo[0].ModelName,
+		cpuInfo[0].ModelName,
 		colorstring.Color("[blue]Mem"),
-		fmt.Sprintf("%d/%d %3d", vmem.Free, vmem.Total, vmem.UsedPercent),
+		fmt.Sprintf("%d Mo / %d Mo - %.0f%%", (vmem.Free/1024/1024), (vmem.Total/1024/1024), vmem.UsedPercent),
+		colorstring.Color("[blue]Desktop"),
+		fmt.Sprintf("%s", desktopName),
+		colorstring.Color("[blue]Shell"),
+		fmt.Sprintf("%s", shellName),
 	))
 	return 0
 }

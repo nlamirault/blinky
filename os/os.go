@@ -13,7 +13,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package version
+package os
 
-// Version represents the application version using SemVer
-const Version string = "0.4.0"
+import (
+	"fmt"
+)
+
+type OperatingSystem interface {
+
+	// GetModel return the computer name
+	GetModel() (string, error)
+
+	// GetDesktop return the name of the window manager or desktop manager
+	GetDesktop() (string, error)
+
+	// GetShell return the Shell used
+	GetShell() (string, error)
+}
+
+type OsFunc func() (OperatingSystem, error)
+
+var registeredOS = map[string](OsFunc){}
+
+func RegisterOperatingSystem(name string, f OsFunc) {
+	registeredOS[name] = f
+}
+
+func New(name string) (OperatingSystem, error) {
+	if os, ok := registeredOS[name]; ok {
+		return os()
+	}
+	return nil, fmt.Errorf("Unsupported operating system: %s", name)
+}

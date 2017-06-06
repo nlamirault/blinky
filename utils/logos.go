@@ -16,6 +16,7 @@
 package utils
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -140,9 +141,9 @@ var (
 			cyan + `                +oooo:` + "                   %s: %s\n" +
 			cyan + `               +oooooo:` + "                  %s: %s\n" +
 			cyan + `              --+oooooo+:` + "                %s: %s\n" +
-			cyan + `             /:-:++oooo+:` + "\n" +
-			cyan + `            /++++/+++++++:` + "\n" +
-			cyan + `           /++++++++++++++:` + "\n" +
+			cyan + `             /:-:++oooo+:` + "                %s: %s\n" +
+			cyan + `            /++++/+++++++:` + "               %s: %s\n" +
+			cyan + `           /++++++++++++++:` + "              %s: %s\n" +
 			cyan + `          /+++o` + blue + `oooooooo` + cyan + `oooo/` + "\n" +
 			blue + `         ` + cyan + `./` + blue + `ooosssso++osssssso` + cyan + `+` + "\n" +
 			blue + `        .oossssso-\\\\/ossssss+` + "\n" +
@@ -256,6 +257,10 @@ func GetLogo(name string) string {
 
 // GetLogoFormat return logo which match distribution's name
 // with formatting output
-func GetLogoFormat(name string) string {
-	return logosData[name]
+func GetLogoFormat(name string) (string, error) {
+	// return logosData[name]
+	if val, ok := logosData[name]; ok {
+		return val, nil
+	}
+	return "", fmt.Errorf("Unsupported operating system: %s", name)
 }

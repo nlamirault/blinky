@@ -17,6 +17,15 @@
 
 package linux
 
+import (
+	"fmt"
+	"os"
+)
+
+const (
+	XDG_CURRENT_DESKTOP = "XDG_CURRENT_DESKTOP"
+)
+
 var (
 	desktops = map[string]string{
 		"gnome-session": "GNOME",
@@ -59,3 +68,11 @@ var (
 		"wingo":         "Wingo",
 	}
 )
+
+func (linux linuxOS) GetDesktop() (string, error) {
+	name := os.Getenv(XDG_CURRENT_DESKTOP)
+	if val, ok := windowmanagers[name]; ok {
+		return val, nil
+	}
+	return "", fmt.Errorf("Unknown desktop: %s", name)
+}

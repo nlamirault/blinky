@@ -13,7 +13,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package version
+// +build linux
 
-// Version represents the application version using SemVer
-const Version string = "0.4.0"
+package linux
+
+import (
+	"os"
+
+	opos "github.com/nlamirault/blinky/os"
+)
+
+const (
+	label = "linux"
+)
+
+func init() {
+	opos.RegisterOperatingSystem(label, newLinux)
+}
+
+type linuxOS struct{}
+
+func newLinux() (opos.OperatingSystem, error) {
+	return linuxOS{}, nil
+}
+
+func (linux linuxOS) GetShell() (string, error) {
+	return os.Getenv("SHELL"), nil
+}
