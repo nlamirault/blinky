@@ -92,7 +92,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
-	logo, err := utils.GetLogoFormat(hostInfo.PlatformFamily)
+	logo, err := utils.GetLogoFormat(hostInfo.Platform)
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
