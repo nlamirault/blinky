@@ -171,15 +171,15 @@ var (
 			red + `       'Y$$b.                 ` + "\n" +
 			red + `          '"Y$b._             ` + "\n" +
 			red + `              '""""           ` + "\n",
-		"ubuntu": red + `                          ./+o+-       ` + "\n" +
-			white + `                  yyyyy- ` + red + `-yyyyyy+     ` + "\n" +
-			white + `               ` + white + `://+//////` + red + `-yyyyyyo     ` + "\n" +
-			yellow + `           .++ ` + white + `.:/++++++/-` + red + `.+sss/\     ` + "\n" +
-			yellow + `         .:++o:  ` + white + ` +/++++++++/:--:/-     ` + "\n" +
-			yellow + `        o:+o+:++. ` + white + `'..'''.-/oo+++++/    ` + "\n" +
-			yellow + `       .:+o:+o/.` + white + `         '+sssoo+/   ` + "\n" +
-			white + `  .++/+:` + yellow + `+oo+o:` + white + `             /sssooo.  ` + "\n" +
-			white + ` /+++//+:` + yellow + `'oo+o` + white + `               /::--:.  ` + "\n" +
+		"ubuntu": red + `                          ./+o+-       ` + "        %s: %s\n" +
+			white + `                  yyyyy- ` + red + `-yyyyyy+     ` + "         %s: %s\n" +
+			white + `               ` + white + `://+//////` + red + `-yyyyyyo     ` + "         %s: %s\n" +
+			yellow + `           .++ ` + white + `.:/++++++/-` + red + `.+sss/\     ` + "         %s: %s\n" +
+			yellow + `         .:++o:  ` + white + ` +/++++++++/:--:/-     ` + "       %s: %s\n" +
+			yellow + `        o:+o+:++. ` + white + `'..'''.-/oo+++++/    ` + "        %s: %s\n" +
+			yellow + `       .:+o:+o/.` + white + `         '+sssoo+/   ` + "          %s: %s\n" +
+			white + `  .++/+:` + yellow + `+oo+o:` + white + `             /sssooo.  ` + "          %s: %s\n" +
+			white + ` /+++//+:` + yellow + `'oo+o` + white + `               /::--:.  ` + "         %s: %s\n" +
 			white + ` \+/+o+++` + yellow + `'o++o` + red + `               ++////.  ` + "\n" +
 			white + `  .++.o+` + yellow + ` ++oo+:'` + red + `             /dddhhh.  ` + "\n" +
 			yellow + `       .+.o+oo:.` + red + `          \'oddhhhh+   ` + "\n" +
