@@ -71,6 +71,9 @@ var (
 
 func (linux linuxOS) GetDesktop() (string, error) {
 	name := os.Getenv(XDG_CURRENT_DESKTOP)
+	if len(name) == 0 {
+		return "", nil
+	}
 	if val, ok := windowmanagers[name]; ok {
 		return val, nil
 	}
