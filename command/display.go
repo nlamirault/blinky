@@ -28,7 +28,8 @@ import (
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
 
-	"github.com/nlamirault/blinky/linux"
+	"github.com/nlamirault/blinky/desktop"
+	"github.com/nlamirault/blinky/os/linux"
 	"github.com/nlamirault/blinky/utils"
 )
 
@@ -108,6 +109,13 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
+	osName := utils.OperatingSystemName()
+	desktopName, err := desktop.GetName(osName)
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
 	c.UI.Output(fmt.Sprintf(
 		logo,
 		colorstring.Color("[blue]OS"),
@@ -125,6 +133,8 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		cpuinfo[0].ModelName,
 		colorstring.Color("[blue]Mem"),
 		fmt.Sprintf("%d/%d %3d", vmem.Free, vmem.Total, vmem.UsedPercent),
+		colorstring.Color("[blue]Desktop"),
+		fmt.Sprintf("%s", desktopName),
 	))
 	return 0
 }

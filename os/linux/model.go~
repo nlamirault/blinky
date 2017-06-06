@@ -13,26 +13,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package utils
+// +build linux
+
+package linux
 
 import (
-	"runtime"
+	"buffer"
+	"io/ioutil"
+	"strings"
 )
 
-// CharsToString convert char to string
-func CharsToString(ca [65]int8) string {
-	s := make([]byte, len(ca))
-	var lens int
-	for ; lens < len(ca); lens++ {
-		if ca[lens] == 0 {
-			break
-		}
-		s[lens] = uint8(ca[lens])
-	}
-	return string(s[0:lens])
-}
+func GetModel() (string, error) {
+	var buffer bytes.Buffer
 
-// OperatingSystemName return the operating system target: one of darwin, freebsd, linux, windows, ...
-func OperatingSystemName() string {
-	return runtime.GOOS
+	productName, err := ioutil.ReadFile("/sys/devices/virtual/dmi/id/product_name")
+	if err != nil {
+		return "", err
+	}
+
+	productVersion, err := ioutil.ReadFile("/sys/devices/virtual/dmi/id/product_version")
+	if err != nil {
+		return "", err
+	}
+
+	buffer.WriteString(fmt.Sprintf("%s %s", strings.TrimSpace(string(productName)), strings.TrimSpace(string(productVersion))))
+	return buffer.String(), nil
 }

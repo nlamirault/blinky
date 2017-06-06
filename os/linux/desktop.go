@@ -13,26 +13,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package utils
+// +build linux
+
+package linux
 
 import (
-	"runtime"
+	"os"
 )
 
-// CharsToString convert char to string
-func CharsToString(ca [65]int8) string {
-	s := make([]byte, len(ca))
-	var lens int
-	for ; lens < len(ca); lens++ {
-		if ca[lens] == 0 {
-			break
-		}
-		s[lens] = uint8(ca[lens])
-	}
-	return string(s[0:lens])
-}
+const (
+	XDG_CURRENT_DESKTOP = "XDG_CURRENT_DESKTOP"
+)
 
-// OperatingSystemName return the operating system target: one of darwin, freebsd, linux, windows, ...
-func OperatingSystemName() string {
-	return runtime.GOOS
+func GetDesktop() (string, error) {
+	return os.Getenv(XDG_CURRENT_DESKTOP), nil
 }

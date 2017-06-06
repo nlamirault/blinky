@@ -27,7 +27,7 @@ import (
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
 
-	"github.com/nlamirault/blinky/linux"
+	"github.com/nlamirault/blinky/os/linux"
 )
 
 // SystemCommand represents the CLI command which display operation system

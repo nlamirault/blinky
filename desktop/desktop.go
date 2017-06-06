@@ -15,7 +15,13 @@
 
 // +build linux
 
-package linux
+package desktop
+
+import (
+	"fmt"
+
+	"github.com/nlamirault/blinky/os/linux"
+)
 
 var (
 	desktops = map[string]string{
@@ -25,6 +31,8 @@ var (
 		"xfce4-session": "XFCE",
 		"lxsession":     "LXDE",
 		"cinnamon":      "CINNAMON",
+		"darwin":        "AQUA",
+		"windows":       "AERO",
 	}
 
 	windowmanagers = map[string]string{
@@ -59,3 +67,16 @@ var (
 		"wingo":         "Wingo",
 	}
 )
+
+func GetName(osName string) (string, error) {
+	switch osName {
+	case "darwin":
+		return desktops[osName], nil
+	case "windows":
+		return desktops[osName], nil
+	case "linux":
+		return linux.GetDesktop()
+	default:
+		return "", fmt.Errorf("Operating system not supported")
+	}
+}
