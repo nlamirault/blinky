@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/mitchellh/cli"
 	"github.com/mitchellh/colorstring"
@@ -97,6 +98,12 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
+	uptime, err := time.ParseDuration(fmt.Sprintf("%ds", hostInfo.Uptime))
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
 	c.UI.Output(fmt.Sprintf(
 		logo,
 		colorstring.Color("[blue]OS"),
@@ -107,7 +114,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		colorstring.Color("[blue]Hostname"),
 		ossystem.Hostname,
 		colorstring.Color("[blue]Uptime"),
-		fmt.Sprintf("%d", hostInfo.Uptime),
+		fmt.Sprintf("%s", uptime), // hostInfo.Uptime),
 		colorstring.Color("[blue]Processor"),
 		cpuinfo[0].ModelName,
 		colorstring.Color("[blue]Mem"),
