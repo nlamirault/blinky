@@ -97,7 +97,11 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
-
+	model, err := linux.GetModel()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
 	uptime, err := time.ParseDuration(fmt.Sprintf("%ds", hostInfo.Uptime))
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
@@ -109,6 +113,8 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		colorstring.Color("[blue]OS"),
 		fmt.Sprintf("%s %s",
 			osrelease.PrettyName, ossystem.Architecture),
+		colorstring.Color("[blue]Model"),
+		fmt.Sprintf("%s", model),
 		colorstring.Color("[blue]Kernel"),
 		kernel.Release,
 		colorstring.Color("[blue]Hostname"),
