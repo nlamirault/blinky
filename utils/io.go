@@ -15,10 +15,6 @@
 
 package utils
 
-import (
-	"runtime"
-)
-
 // CharsToString convert char to string
 func CharsToString(ca [65]int8) string {
 	s := make([]byte, len(ca))
@@ -30,9 +26,4 @@ func CharsToString(ca [65]int8) string {
 		s[lens] = uint8(ca[lens])
 	}
 	return string(s[0:lens])
-}
-
-// OperatingSystemName return the operating system target: one of darwin, freebsd, linux, windows, ...
-func OperatingSystemName() string {
-	return runtime.GOOS
 }

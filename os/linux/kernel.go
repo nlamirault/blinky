@@ -21,10 +21,6 @@ import (
 	"bufio"
 	"os"
 	"strings"
-
-	"golang.org/x/sys/unix"
-
-	"github.com/nlamirault/blinky/utils"
 )
 
 // OSRelease holds the OS release facts.
@@ -34,38 +30,6 @@ type OSRelease struct {
 	PrettyName string
 	Version    string
 	VersionID  string
-}
-
-// OSSystem defines the operating system informations
-type OSSystem struct {
-	Domainname   string
-	Architecture string
-	Hostname     string
-}
-
-// Kernel holds the kernel facts.
-type Kernel struct {
-	Name    string
-	Release string
-	Version string
-}
-
-// GetKernelInformations extract informations from the Linux Kernel
-func GetKernelInformations() (*OSSystem, *Kernel, error) {
-	var buf unix.Utsname
-	err := unix.Uname(&buf)
-	if err != nil {
-		return nil, nil, err
-	}
-	ossystem := new(OSSystem)
-	ossystem.Domainname = utils.CharsToString(buf.Domainname)
-	ossystem.Architecture = utils.CharsToString(buf.Machine)
-	ossystem.Hostname = utils.CharsToString(buf.Nodename)
-	kernel := new(Kernel)
-	kernel.Name = utils.CharsToString(buf.Sysname)
-	kernel.Release = utils.CharsToString(buf.Release)
-	kernel.Version = utils.CharsToString(buf.Version)
-	return ossystem, kernel, nil
 }
 
 // GetOSRelease extract informations for the current operating system

@@ -79,12 +79,7 @@ func (c *SystemCommand) doSystemInformations() int {
 		return 1
 	}
 	log.Printf("[DEBUG] CPU: %s", cpuinfo)
-	ossystem, kernel, _ := linux.GetKernelInformations()
-	// platform, family, version, err := host.GetPlatformInformation()
-	// if err != nil {
-	// 	log.Errorf("Error: %v", err)
-	// 	return
-	// }
+
 	hostInfo, err := host.Info()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
@@ -98,9 +93,9 @@ func (c *SystemCommand) doSystemInformations() int {
 	}
 	// Display system informations
 	c.UI.Output(colorstring.Color("[blue]OS: ") +
-		fmt.Sprintf("%s %s", osrelease.PrettyName, ossystem.Architecture))
-	c.UI.Output(colorstring.Color("[blue]Hostname: ") + ossystem.Hostname)
-	c.UI.Output(colorstring.Color("[blue]Kernel: ") + kernel.Release)
+		fmt.Sprintf("%s", hostInfo.PlatformFamily))
+	c.UI.Output(colorstring.Color("[blue]Hostname: ") + hostInfo.Hostname)
+	c.UI.Output(colorstring.Color("[blue]Kernel: ") + hostInfo.KernelVersion)
 	c.UI.Output(colorstring.Color("[blue]Memory: ") +
 		fmt.Sprintf("%d/%d %d", vmem.Free, vmem.Total, vmem.UsedPercent))
 	c.UI.Output(colorstring.Color("[blue]Processor: ") + cpuinfo[0].ModelName)
