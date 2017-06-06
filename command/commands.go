@@ -22,6 +22,7 @@ import (
 	"github.com/mitchellh/cli"
 
 	"github.com/nlamirault/blinky/logging"
+	_ "github.com/nlamirault/blinky/os/linux"
 )
 
 // Commands is the mapping of all the available Terraform commands.

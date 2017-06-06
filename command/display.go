@@ -29,7 +29,6 @@ import (
 	"github.com/shirou/gopsutil/mem"
 
 	"github.com/nlamirault/blinky/os"
-	_ "github.com/nlamirault/blinky/os/linux"
 	"github.com/nlamirault/blinky/utils"
 )
 
