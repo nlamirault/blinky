@@ -1,2 +1,5 @@
-bin/
-pkg/
+# Executable
+blinky
+
+# Editors
+*~
