@@ -92,7 +92,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
-	logo, err := utils.GetLogoFormat(hostInfo.Platform)
+	logo, color, err := utils.GetOperatingSystemTheme(hostInfo.Platform)
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
@@ -130,23 +130,23 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 
 	c.UI.Output(fmt.Sprintf(
 		logo,
-		colorstring.Color("[blue]OS"),
+		colorstring.Color(fmt.Sprintf("[%s]OS", color)),
 		fmt.Sprintf("%s", hostInfo.PlatformFamily),
-		colorstring.Color("[blue]Model"),
+		colorstring.Color(fmt.Sprintf("[%s]Model", color)),
 		fmt.Sprintf("%s", model),
-		colorstring.Color("[blue]Kernel"),
+		colorstring.Color(fmt.Sprintf("[%s]Kernel", color)),
 		hostInfo.KernelVersion,
-		colorstring.Color("[blue]Hostname"),
+		colorstring.Color(fmt.Sprintf("[%s]Hostname", color)),
 		hostInfo.Hostname,
-		colorstring.Color("[blue]Uptime"),
+		colorstring.Color(fmt.Sprintf("[%s]Uptime", color)),
 		fmt.Sprintf("%s", uptime),
-		colorstring.Color("[blue]Processor"),
+		colorstring.Color(fmt.Sprintf("[%s]Processor", color)),
 		cpuInfo[0].ModelName,
-		colorstring.Color("[blue]Mem"),
-		fmt.Sprintf("%d Mo / %d Mo - %.0f%%", (vmem.Free/1024/1024), (vmem.Total/1024/1024), vmem.UsedPercent),
-		colorstring.Color("[blue]Desktop"),
+		colorstring.Color(fmt.Sprintf("[%s]Mem", color)),
+		fmt.Sprintf("%d MiB / %d MiB - %.0f%%", (vmem.Free/1024/1024), (vmem.Total/1024/1024), vmem.UsedPercent),
+		colorstring.Color(fmt.Sprintf("[%s]Desktop", color)),
 		fmt.Sprintf("%s", desktopName),
-		colorstring.Color("[blue]Shell"),
+		colorstring.Color(fmt.Sprintf("[%s]Shell", color)),
 		fmt.Sprintf("%s", shellName),
 	))
 	return 0

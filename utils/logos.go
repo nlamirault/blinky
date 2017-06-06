@@ -171,15 +171,15 @@ var (
 			red + `       'Y$$b.                 ` + "\n" +
 			red + `          '"Y$b._             ` + "\n" +
 			red + `              '""""           ` + "\n",
-		"ubuntu": red + `                          ./+o+-       ` + "        %s: %s\n" +
-			white + `                  yyyyy- ` + red + `-yyyyyy+     ` + "         %s: %s\n" +
-			white + `               ` + white + `://+//////` + red + `-yyyyyyo     ` + "         %s: %s\n" +
-			yellow + `           .++ ` + white + `.:/++++++/-` + red + `.+sss/\     ` + "         %s: %s\n" +
-			yellow + `         .:++o:  ` + white + ` +/++++++++/:--:/-     ` + "       %s: %s\n" +
-			yellow + `        o:+o+:++. ` + white + `'..'''.-/oo+++++/    ` + "        %s: %s\n" +
-			yellow + `       .:+o:+o/.` + white + `         '+sssoo+/   ` + "          %s: %s\n" +
-			white + `  .++/+:` + yellow + `+oo+o:` + white + `             /sssooo.  ` + "          %s: %s\n" +
-			white + ` /+++//+:` + yellow + `'oo+o` + white + `               /::--:.  ` + "         %s: %s\n" +
+		"ubuntu": red + `                          ./+o+-       ` + "  %s: %s\n" +
+			white + `                  yyyyy- ` + red + `-yyyyyy+     ` + "   %s: %s\n" +
+			white + `               ` + white + `://+//////` + red + `-yyyyyyo     ` + "   %s: %s\n" +
+			yellow + `           .++ ` + white + `.:/++++++/-` + red + `.+sss/\     ` + "   %s: %s\n" +
+			yellow + `         .:++o:  ` + white + ` +/++++++++/:--:/-     ` + " %s: %s\n" +
+			yellow + `        o:+o+:++. ` + white + `'..'''.-/oo+++++/    ` + "  %s: %s\n" +
+			yellow + `       .:+o:+o/.` + white + `         '+sssoo+/   ` + "    %s: %s\n" +
+			white + `  .++/+:` + yellow + `+oo+o:` + white + `             /sssooo.  ` + "    %s: %s\n" +
+			white + ` /+++//+:` + yellow + `'oo+o` + white + `               /::--:.  ` + "   %s: %s\n" +
 			white + ` \+/+o+++` + yellow + `'o++o` + red + `               ++////.  ` + "\n" +
 			white + `  .++.o+` + yellow + ` ++oo+:'` + red + `             /dddhhh.  ` + "\n" +
 			yellow + `       .+.o+oo:.` + red + `          \'oddhhhh+   ` + "\n" +
@@ -238,6 +238,11 @@ var (
 			blue + `             '` + yellow + ` :EEEEtttt::::z7       ` + "\n" +
 			yellow + `                 "VEzjt:;;z>*'       ` + "\n",
 	}
+
+	colorsData = map[string]string{
+		"arch":   "blue",
+		"ubuntu": "red",
+	}
 )
 
 // GetOperatingSystems returns available logos
@@ -255,12 +260,17 @@ func GetLogo(name string) string {
 	return logos[name]
 }
 
-// GetLogoFormat return logo which match distribution's name
-// with formatting output
-func GetLogoFormat(name string) (string, error) {
-	// return logosData[name]
-	if val, ok := logosData[name]; ok {
-		return val, nil
+// GetOperatingSystemTheme return logo which match distribution's name
+// with formatting output and main color
+func GetOperatingSystemTheme(name string) (string, string, error) {
+	logo, okLogo := logosData[name]
+	if !okLogo {
+		return "", "", fmt.Errorf("Unsupported operating system: %s", name)
 	}
-	return "", fmt.Errorf("Unsupported operating system: %s", name)
+
+	color, okColor := colorsData[name]
+	if !okColor {
+		color = "white"
+	}
+	return logo, color, nil
 }
