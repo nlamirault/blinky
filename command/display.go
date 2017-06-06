@@ -28,7 +28,8 @@ import (
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
 
-	"github.com/nlamirault/blinky/desktop"
+	"github.com/nlamirault/blinky/os"
+	_ "github.com/nlamirault/blinky/os/linux"
 	"github.com/nlamirault/blinky/utils"
 )
 
@@ -103,7 +104,25 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
-	desktopName, err := desktop.GetName(hostInfo.OS)
+	os, err := os.New(hostInfo.OS)
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	model, err := os.GetModel()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	desktopName, err := os.GetDesktop()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
+	shellName, err := os.GetShell()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
@@ -114,7 +133,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		colorstring.Color("[blue]OS"),
 		fmt.Sprintf("%s", hostInfo.PlatformFamily),
 		colorstring.Color("[blue]Model"),
-		fmt.Sprintf("%s", cpuInfo[0].Model),
+		fmt.Sprintf("%s", model),
 		colorstring.Color("[blue]Kernel"),
 		hostInfo.KernelVersion,
 		colorstring.Color("[blue]Hostname"),
@@ -124,9 +143,11 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		colorstring.Color("[blue]Processor"),
 		cpuInfo[0].ModelName,
 		colorstring.Color("[blue]Mem"),
-		fmt.Sprintf("%d/%d %3d", vmem.Free, vmem.Total, vmem.UsedPercent),
+		fmt.Sprintf("%d Mo / %d Mo - %.0f%%", (vmem.Free/1024/1024), (vmem.Total/1024/1024), vmem.UsedPercent),
 		colorstring.Color("[blue]Desktop"),
 		fmt.Sprintf("%s", desktopName),
+		colorstring.Color("[blue]Shell"),
+		fmt.Sprintf("%s", shellName),
 	))
 	return 0
 }

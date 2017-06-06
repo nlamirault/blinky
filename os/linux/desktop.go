@@ -18,6 +18,7 @@
 package linux
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -25,6 +26,53 @@ const (
 	XDG_CURRENT_DESKTOP = "XDG_CURRENT_DESKTOP"
 )
 
-func GetDesktop() (string, error) {
-	return os.Getenv(XDG_CURRENT_DESKTOP), nil
+var (
+	desktops = map[string]string{
+		"gnome-session": "GNOME",
+		"ksmserver":     "KDE",
+		"mate-session":  "MATE",
+		"xfce4-session": "XFCE",
+		"lxsession":     "LXDE",
+		"cinnamon":      "CINNAMON",
+	}
+
+	windowmanagers = map[string]string{
+		"awesome":       "Awesome",
+		"beryl":         "Beryl",
+		"blackbox":      "Blackbox",
+		"bspwm":         "bspwm",
+		"dwm":           "DWM",
+		"enlightenment": "Enlightenment",
+		"fluxbox":       "Fluxbox",
+		"fvwm":          "FVWM",
+		"herbstluftwm":  "herbstluftwm",
+		"i3":            "i3",
+		"icewm":         "IceWM",
+		"kwin":          "KWin",
+		"metacity":      "Metacity",
+		"musca":         "Musca",
+		"openbox":       "Openbox",
+		"pekwm":         "PekWM",
+		"ratpoison":     "ratpoison",
+		"scrotwm":       "ScrotWM",
+		"subtle":        "subtle",
+		"monsterwm":     "MonsterWM",
+		"wmaker":        "Window Maker",
+		"wmfs":          "Wmfs",
+		"wmii":          "wmii",
+		"xfwm4":         "Xfwm",
+		"emerald":       "Emerald",
+		"compiz":        "Compiz",
+		"xmonad":        "xmonad",
+		"qtile":         "QTile",
+		"wingo":         "Wingo",
+	}
+)
+
+func (linux linuxOS) GetDesktop() (string, error) {
+	name := os.Getenv(XDG_CURRENT_DESKTOP)
+	if val, ok := windowmanagers[name]; ok {
+		return val, nil
+	}
+	return "", fmt.Errorf("Unknown desktop: %s", name)
 }

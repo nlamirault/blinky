@@ -16,3 +16,27 @@
 // +build linux
 
 package linux
+
+import (
+	"os"
+
+	opos "github.com/nlamirault/blinky/os"
+)
+
+const (
+	label = "linux"
+)
+
+func init() {
+	opos.RegisterOperatingSystem(label, newLinux)
+}
+
+type linuxOS struct{}
+
+func newLinux() (opos.OperatingSystem, error) {
+	return linuxOS{}, nil
+}
+
+func (linux linuxOS) GetShell() (string, error) {
+	return os.Getenv("SHELL"), nil
+}

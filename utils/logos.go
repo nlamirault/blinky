@@ -143,7 +143,7 @@ var (
 			cyan + `              --+oooooo+:` + "                %s: %s\n" +
 			cyan + `             /:-:++oooo+:` + "                %s: %s\n" +
 			cyan + `            /++++/+++++++:` + "               %s: %s\n" +
-			cyan + `           /++++++++++++++:` + "\n" +
+			cyan + `           /++++++++++++++:` + "              %s: %s\n" +
 			cyan + `          /+++o` + blue + `oooooooo` + cyan + `oooo/` + "\n" +
 			blue + `         ` + cyan + `./` + blue + `ooosssso++osssssso` + cyan + `+` + "\n" +
 			blue + `        .oossssso-\\\\/ossssss+` + "\n" +

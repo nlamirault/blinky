@@ -13,30 +13,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// +build linux
-
-package linux
+package os
 
 import (
-	"bytes"
 	"fmt"
-	"io/ioutil"
-	"strings"
 )
 
-func (linux linuxOS) GetModel() (string, error) {
-	var buffer bytes.Buffer
+type OperatingSystem interface {
 
-	productName, err := ioutil.ReadFile("/sys/devices/virtual/dmi/id/product_name")
-	if err != nil {
-		return "", err
+	// GetModel return the computer name
+	GetModel() (string, error)
+
+	// GetDesktop return the name of the window manager or desktop manager
+	GetDesktop() (string, error)
+
+	// GetShell return the Shell used
+	GetShell() (string, error)
+}
+
+type OsFunc func() (OperatingSystem, error)
+
+var registeredOS = map[string](OsFunc){}
+
+func RegisterOperatingSystem(name string, f OsFunc) {
+	registeredOS[name] = f
+}
+
+func New(name string) (OperatingSystem, error) {
+	if os, ok := registeredOS[name]; ok {
+		return os()
 	}
-
-	productVersion, err := ioutil.ReadFile("/sys/devices/virtual/dmi/id/product_version")
-	if err != nil {
-		return "", err
-	}
-
-	buffer.WriteString(fmt.Sprintf("%s %s", strings.TrimSpace(string(productName)), strings.TrimSpace(string(productVersion))))
-	return buffer.String(), nil
+	return nil, fmt.Errorf("Unsupported operating system: %s", name)
 }
