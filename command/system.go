@@ -26,8 +26,6 @@ import (
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
-
-	"github.com/nlamirault/blinky/os/linux"
 )
 
 // SystemCommand represents the CLI command which display operation system
@@ -67,12 +65,7 @@ func (c *SystemCommand) Run(args []string) int {
 
 func (c *SystemCommand) doSystemInformations() int {
 	log.Printf("[DEBUG] Retrieve system informations")
-	osrelease, err := linux.GetOSRelease()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
-		return 1
-	}
-	log.Printf("[DEBUG] OS: %s", osrelease)
+
 	cpuinfo, err := cpu.Info()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
@@ -86,11 +79,13 @@ func (c *SystemCommand) doSystemInformations() int {
 		return 1
 	}
 	log.Printf("[DEBUG] Host: %s", hostInfo)
+
 	vmem, err := mem.VirtualMemory()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
+
 	// Display system informations
 	c.UI.Output(colorstring.Color("[blue]OS: ") +
 		fmt.Sprintf("%s", hostInfo.PlatformFamily))

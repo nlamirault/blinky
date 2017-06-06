@@ -17,51 +17,51 @@
 
 package linux
 
-import (
-	"bufio"
-	"os"
-	"strings"
-)
+// import (
+// 	"bufio"
+// 	"os"
+// 	"strings"
+// )
 
-// OSRelease holds the OS release facts.
-type OSRelease struct {
-	Name       string
-	ID         string
-	PrettyName string
-	Version    string
-	VersionID  string
-}
+// // OSRelease holds the OS release facts.
+// type OSRelease struct {
+// 	Name       string
+// 	ID         string
+// 	PrettyName string
+// 	Version    string
+// 	VersionID  string
+// }
 
-// GetOSRelease extract informations for the current operating system
-func GetOSRelease() (*OSRelease, error) {
-	osReleaseFile, err := os.Open("/etc/os-release")
-	if err != nil {
-		//log.Printf("[ERROR] Can't open OS release file : %s", err.Error())
-		return nil, err
-	}
-	defer osReleaseFile.Close()
-	osrelease := new(OSRelease)
+// // GetOSRelease extract informations for the current operating system
+// func GetOSRelease() (*OSRelease, error) {
+// 	osReleaseFile, err := os.Open("/etc/os-release")
+// 	if err != nil {
+// 		//log.Printf("[ERROR] Can't open OS release file : %s", err.Error())
+// 		return nil, err
+// 	}
+// 	defer osReleaseFile.Close()
+// 	osrelease := new(OSRelease)
 
-	scanner := bufio.NewScanner(osReleaseFile)
-	for scanner.Scan() {
-		line := scanner.Text()
-		if len(line) > 0 {
-			columns := strings.Split(line, "=")
-			key := columns[0]
-			value := strings.Trim(strings.TrimSpace(columns[1]), `"`)
-			switch key {
-			case "NAME":
-				osrelease.Name = value
-			case "ID":
-				osrelease.ID = value
-			case "PRETTY_NAME":
-				osrelease.PrettyName = value
-			case "VERSION":
-				osrelease.Version = value
-			case "VERSION_ID":
-				osrelease.VersionID = value
-			}
-		}
-	}
-	return osrelease, nil
-}
+// 	scanner := bufio.NewScanner(osReleaseFile)
+// 	for scanner.Scan() {
+// 		line := scanner.Text()
+// 		if len(line) > 0 {
+// 			columns := strings.Split(line, "=")
+// 			key := columns[0]
+// 			value := strings.Trim(strings.TrimSpace(columns[1]), `"`)
+// 			switch key {
+// 			case "NAME":
+// 				osrelease.Name = value
+// 			case "ID":
+// 				osrelease.ID = value
+// 			case "PRETTY_NAME":
+// 				osrelease.PrettyName = value
+// 			case "VERSION":
+// 				osrelease.Version = value
+// 			case "VERSION_ID":
+// 				osrelease.VersionID = value
+// 			}
+// 		}
+// 	}
+// 	return osrelease, nil
+// }

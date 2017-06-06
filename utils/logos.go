@@ -16,6 +16,7 @@
 package utils
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -256,6 +257,10 @@ func GetLogo(name string) string {
 
 // GetLogoFormat return logo which match distribution's name
 // with formatting output
-func GetLogoFormat(name string) string {
-	return logosData[name]
+func GetLogoFormat(name string) (string, error) {
+	// return logosData[name]
+	if val, ok := logosData[name]; ok {
+		return val, nil
+	}
+	return "", fmt.Errorf("Unsupported operating system: %s", name)
 }

@@ -29,7 +29,6 @@ import (
 	"github.com/shirou/gopsutil/mem"
 
 	"github.com/nlamirault/blinky/desktop"
-	"github.com/nlamirault/blinky/os/linux"
 	"github.com/nlamirault/blinky/utils"
 )
 
@@ -71,13 +70,6 @@ func (c *DisplayCommand) Run(args []string) int {
 func (c *DisplayCommand) doDisplaySystemInformations() int {
 	c.UI.Output("")
 	log.Printf("[DEBUG] Display system informations")
-	osrelease, err := linux.GetOSRelease()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
-		return 1
-	}
-	log.Printf("[DEBUG] OS: %s", osrelease)
-	logo := utils.GetLogoFormat(osrelease.ID)
 
 	hostInfo, err := host.Info()
 	if err != nil {
@@ -86,11 +78,12 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 	}
 	log.Printf("[DEBUG] Host: %s", hostInfo)
 
-	cpuinfo, err := cpu.Info()
+	cpuInfo, err := cpu.Info()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
+	log.Printf("[DEBUG] CPU: %s", cpuInfo)
 
 	vmem, err := mem.VirtualMemory()
 	if err != nil {
@@ -98,7 +91,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
-	model, err := linux.GetModel()
+	logo, err := utils.GetLogoFormat(hostInfo.PlatformFamily)
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
@@ -121,7 +114,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		colorstring.Color("[blue]OS"),
 		fmt.Sprintf("%s", hostInfo.PlatformFamily),
 		colorstring.Color("[blue]Model"),
-		fmt.Sprintf("%s", model),
+		fmt.Sprintf("%s", cpuInfo[0].Model),
 		colorstring.Color("[blue]Kernel"),
 		hostInfo.KernelVersion,
 		colorstring.Color("[blue]Hostname"),
@@ -129,7 +122,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		colorstring.Color("[blue]Uptime"),
 		fmt.Sprintf("%s", uptime),
 		colorstring.Color("[blue]Processor"),
-		cpuinfo[0].ModelName,
+		cpuInfo[0].ModelName,
 		colorstring.Color("[blue]Mem"),
 		fmt.Sprintf("%d/%d %3d", vmem.Free, vmem.Total, vmem.UsedPercent),
 		colorstring.Color("[blue]Desktop"),
