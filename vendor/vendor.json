@@ -51,6 +51,12 @@
 			"revisionTime": "2017-02-08T07:23:55Z"
 		},
 		{
+			"checksumSHA1": "ttEN1Aupb7xpPMkQLqb3tzLFdXs=",
+			"path": "github.com/mitchellh/colorstring",
+			"revision": "8631ce90f28644f54aeedcb3e389a85174e067d1",
+			"revisionTime": "2015-09-17T21:48:07Z"
+		},
+		{
 			"checksumSHA1": "zW2k8E1gkuySzTz2eXuSEDhpffY=",
 			"path": "github.com/shirou/gopsutil/cpu",
 			"revision": "b62e301a8b9958eebb7299683eb57fab229a9501",

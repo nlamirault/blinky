@@ -103,6 +103,14 @@ errcheck: ## Launch go errcheck
 coverage: ## Launch code coverage
 	@$(foreach pkg,$(PKGS),$(GO) test -cover $(pkg) $(glide novendor) || exit;)
 
+.PHONY: docker-build
+docker-build: ## Build docker image (image=xx)
+	@docker build -t blinky:$(image) -f Dockerfile.$(image) .
+
+.PHONY: docker-run
+docker-run: ## Run Blinky using image (image=xx)
+	@docker run blinky:$(image) display
+
 gox: ## Make all binaries
 	@echo -e "$(OK_COLOR)[$(APP)] Create binaries $(NO_COLOR)"
 	$(GOX) $(GOX_ARGS) github.com/nlamirault/blinky

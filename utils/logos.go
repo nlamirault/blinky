@@ -100,6 +100,25 @@ var (
 			green + `      '/dMNmy+/:-------------:/yMMM  ` + "\n" +
 			green + `         ./ydNMMMMMMMMMMMMMMMMMMMMM  ` + "\n" +
 			green + `            \.MMMMMMMMMMMMMMMMMMM    ` + "\n",
+		"centos": yellow +
+			`                 .PLTJ.                  ` + "\n" +
+			`                <><><><>                 ` + "\n" +
+			green +
+			`      KKSSV' 4KKK  ` + yellow + `LJ ` + red + ` KKKL.'VSSKK ` + "\n" +
+			green + `      KKV' 4KKKKK ` + yellow + ` LJ` + red + `  KKKKAL 'VKK` + "\n" +
+			green + `      V' ' 'VKKKK ` + yellow + ` LJ ` + red + ` KKKKV' ' 'V` + "\n" +
+			green + `      .4MA.' 'VKK ` + yellow + ` LJ ` + red + ` KKV' '.4Mb.` + "\n" +
+			red + `    . ` + green + `KKKKKA.' VK ` + yellow + ` LJ ` + red + ` V' '.4KKKKK` + blue + `.` + "\n" +
+			red + `  .4D ` + green + `KKKKKKKA.'' ` + yellow + ` LJ ` + red + ` ''.4KKKKKKK ` + blue + `FA.` + "\n" +
+			red + ` <QDD ++++++++++++  ` + blue + `  ++++++++++++ GFD>` + "\n" +
+			red + `  'VD ` + blue + `KKKKKKKK'.. ` + green + ` LJ ` + yellow + ` ..'KKKKKKKK ` + blue + `FV` + "\n" +
+			red + `    ' ` + blue + `VKKKKK'. .4 ` + green + ` LJ  ` + yellow + `K. .'KKKKKV` + blue + `'` + "\n" +
+			blue + `      'VK'. .4KK   ` + green + `LJ ` + yellow + ` KKA. .'KV'` + "\n" +
+			blue + `      A. . .4KKKK  ` + green + `LJ  ` + yellow + `KKKKA. . .4` + "\n" +
+			blue + `      KKA. 'KKKKK  ` + green + `LJ  ` + yellow + `KKKKK' .4KK` + "\n" +
+			blue + `      KKSSA. VKKK  ` + green + `LJ  ` + yellow + `KKKV .4SSKK` + "\n" +
+			green + `                <><><><>` + "\n" +
+			green + `                 'MKKM'` + "\n",
 		"osx": green + `                  -/+:.          ` + "\n" +
 			green + `                 :++++.         ` + "\n" +
 			green + `                /+++/.          ` + "\n" +
@@ -205,6 +224,25 @@ var (
 			green + `      '/dMNmy+/:-------------:/yMMM  ` + "\n" +
 			green + `         ./ydNMMMMMMMMMMMMMMMMMMMMM  ` + "\n" +
 			green + `            \.MMMMMMMMMMMMMMMMMMM    ` + "\n",
+		"centos": yellow +
+			`                 .PLTJ.                  ` + "\n" +
+			`                <><><><>                 ` + "\n" +
+			green +
+			`      KKSSV' 4KKK  ` + yellow + `LJ ` + red + ` KKKL.'VSSKK ` + "\n" +
+			green + `      KKV' 4KKKKK ` + yellow + ` LJ` + red + `  KKKKAL 'VKK` + "\n" +
+			green + `      V' ' 'VKKKK ` + yellow + ` LJ ` + red + ` KKKKV' ' 'V` + "\n" +
+			green + `      .4MA.' 'VKK ` + yellow + ` LJ ` + red + ` KKV' '.4Mb.` + "\n" +
+			red + `    . ` + green + `KKKKKA.' VK ` + yellow + ` LJ ` + red + ` V' '.4KKKKK` + blue + `.` + "\n" +
+			red + `  .4D ` + green + `KKKKKKKA.'' ` + yellow + ` LJ ` + red + ` ''.4KKKKKKK ` + blue + `FA.` + "\n" +
+			red + ` <QDD ++++++++++++  ` + blue + `  ++++++++++++ GFD>` + "\n" +
+			red + `  'VD ` + blue + `KKKKKKKK'.. ` + green + ` LJ ` + yellow + ` ..'KKKKKKKK ` + blue + `FV` + "\n" +
+			red + `    ' ` + blue + `VKKKKK'. .4 ` + green + ` LJ  ` + yellow + `K. .'KKKKKV` + blue + `'` + "\n" +
+			blue + `      'VK'. .4KK   ` + green + `LJ ` + yellow + ` KKA. .'KV'` + "\n" +
+			blue + `      A. . .4KKKK  ` + green + `LJ  ` + yellow + `KKKKA. . .4` + "\n" +
+			blue + `      KKA. 'KKKKK  ` + green + `LJ  ` + yellow + `KKKKK' .4KK` + "\n" +
+			blue + `      KKSSA. VKKK  ` + green + `LJ  ` + yellow + `KKKV .4SSKK` + "\n" +
+			green + `                <><><><>` + "\n" +
+			green + `                 'MKKM'` + "\n",
 		"osx": green + `                  -/+:.          ` + "\n" +
 			green + `                 :++++.         ` + "\n" +
 			green + `                /+++/.          ` + "\n" +
