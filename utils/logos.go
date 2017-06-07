@@ -243,6 +243,7 @@ var (
 		"arch":   "blue",
 		"ubuntu": "red",
 		"debian": "red",
+		"osx":    "yellow",
 	}
 )
 

@@ -121,6 +121,12 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
+	osName, err := os.GetName()
+	if err != nil {
+		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
+		return 1
+	}
+
 	shellName, err := os.GetShell()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
@@ -130,7 +136,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 	c.UI.Output(fmt.Sprintf(
 		logo,
 		colorstring.Color(fmt.Sprintf("[%s]OS", color)),
-		fmt.Sprintf("%s", hostInfo.PlatformFamily),
+		fmt.Sprintf("%s", osName),
 		colorstring.Color(fmt.Sprintf("[%s]Model", color)),
 		fmt.Sprintf("%s", model),
 		colorstring.Color(fmt.Sprintf("[%s]Kernel", color)),
