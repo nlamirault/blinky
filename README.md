@@ -7,6 +7,7 @@ Blinky
 and/or ASCII distributions logos.
 
 ![Screenshot](blinky.png)
+![ARM](blink-arm.png)
 
 ## Installation
 
