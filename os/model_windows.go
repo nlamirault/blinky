@@ -13,16 +13,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// +build darwin
+// +build windows
 
-package darwin
+package os
 
-var (
-	desktops = map[string]string{
-		"windows": "AERO",
-	}
-
-	windowmanagers = map[string]string{
-		"bblean": "Blackbox",
-	}
+import (
+	"os/exec"
 )
+
+func (windows windowsOS) GetModel() (string, error) {
+	sysctl, err := exec.LookPath("wmic")
+	if err != nil {
+		return "", err
+	}
+	out, err := exec.Command(sysctl, "computersystem get manufacturer,model").Output()
+	if err != nil {
+		return "", err
+	}
+	return string(out), nil
+}

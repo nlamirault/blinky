@@ -13,30 +13,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// +build linux
+// +build darwin
 
-package linux
+package os
 
 import (
-	"bytes"
-	"fmt"
-	"io/ioutil"
-	"strings"
+	"github.com/nlamirault/blinky/utils"
 )
 
-func (linux linuxOS) GetModel() (string, error) {
-	var buffer bytes.Buffer
-
-	productName, err := ioutil.ReadFile("/sys/devices/virtual/dmi/id/product_name")
-	if err != nil {
-		return "", err
-	}
-
-	productVersion, err := ioutil.ReadFile("/sys/devices/virtual/dmi/id/product_version")
-	if err != nil {
-		return "", err
-	}
-
-	buffer.WriteString(fmt.Sprintf("%s %s", strings.TrimSpace(string(productName)), strings.TrimSpace(string(productVersion))))
-	return buffer.String(), nil
+func (darwin darwinOS) GetModel() (string, error) {
+	return utils.ExecCommand("/usr/sbin/sysctl", "hw.model")
 }

@@ -15,9 +15,9 @@
 
 package os
 
-import (
-	"fmt"
-)
+// import (
+// 	"fmt"
+// )
 
 type OperatingSystem interface {
 
@@ -29,19 +29,21 @@ type OperatingSystem interface {
 
 	// GetShell return the Shell used
 	GetShell() (string, error)
+
+	GetName() (string, error)
 }
 
-type OsFunc func() (OperatingSystem, error)
+// type OsFunc func() (OperatingSystem, error)
 
-var registeredOS = map[string](OsFunc){}
+// var registeredOS = map[string](OsFunc){}
 
-func RegisterOperatingSystem(name string, f OsFunc) {
-	registeredOS[name] = f
-}
+// func RegisterOperatingSystem(name string, f OsFunc) {
+// 	registeredOS[name] = f
+// }
 
-func New(name string) (OperatingSystem, error) {
-	if os, ok := registeredOS[name]; ok {
-		return os()
-	}
-	return nil, fmt.Errorf("Unsupported operating system: %s", name)
-}
+// func New(name string) (OperatingSystem, error) {
+// 	if os, ok := registeredOS[name]; ok {
+// 		return os()
+// 	}
+// 	return nil, fmt.Errorf("Unsupported operating system: %s", name)
+// }

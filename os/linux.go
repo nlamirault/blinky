@@ -13,33 +13,45 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package utils
+// +build linux
+
+package os
 
 import (
-	"os/exec"
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
 )
 
-// CharsToString convert char to string
-func CharsToString(ca [65]int8) string {
-	s := make([]byte, len(ca))
-	var lens int
-	for ; lens < len(ca); lens++ {
-		if ca[lens] == 0 {
-			break
-		}
-		s[lens] = uint8(ca[lens])
-	}
-	return string(s[0:lens])
+type linuxOS struct{}
+
+func NewOperatingSystem() (OperatingSystem, error) {
+	return linuxOS{}, nil
 }
 
-func ExecCommand(command string, arg ...string) (string, error) {
-	cmd, err := exec.LookPath(command)
+func (linux linuxOS) GetShell() (string, error) {
+	return os.Getenv("SHELL"), nil
+}
+
+func (linux linuxOS) GetName() (string, error) {
+	osReleaseFile, err := os.Open("/etc/os-release")
 	if err != nil {
 		return "", err
 	}
-	out, err := exec.Command(cmd, arg...).Output()
-	if err != nil {
-		return "", err
+	defer osReleaseFile.Close()
+	scanner := bufio.NewScanner(osReleaseFile)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if len(line) > 0 {
+			columns := strings.Split(line, "=")
+			key := columns[0]
+			value := strings.Trim(strings.TrimSpace(columns[1]), `"`)
+			switch key {
+			case "PRETTY_NAME":
+				return value, nil
+			}
+		}
 	}
-	return string(out), nil
+	return "", fmt.Errorf("Can't find Linux distribution name")
 }

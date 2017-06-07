@@ -15,20 +15,20 @@
 
 // +build darwin
 
-package darwin
+package os
 
-import (
-	"os/exec"
+var (
+	desktops = map[string]string{
+		"darwin": "AQUA",
+	}
+
+	windowmanagers = map[string]string{
+		"Amethyst":  "Amethyst",
+		"kwm":       "Kwm",
+		"Spectable": "Spectable",
+	}
 )
 
-func (darwin darwinOS) GetModel() (string, error) {
-	sysctl, err := exec.LookPath("/usr/sbin/sysctl")
-	if err != nil {
-		return "", err
-	}
-	out, err := exec.Command(sysctl, "hw.model").Output()
-	if err != nil {
-		return "", err
-	}
-	return out, nil
+func (darwin darwinOS) GetDesktop() (string, error) {
+	return desktops["darwin"], nil
 }

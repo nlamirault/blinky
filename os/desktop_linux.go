@@ -15,7 +15,7 @@
 
 // +build linux
 
-package linux
+package os
 
 import (
 	"fmt"

@@ -13,30 +13,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// +build linux
+// +build windows
 
-package linux
+package os
 
-import (
-	"os"
+var (
+	desktops = map[string]string{
+		"windows": "AERO",
+	}
 
-	opos "github.com/nlamirault/blinky/os"
+	windowmanagers = map[string]string{
+		"bblean": "Blackbox",
+	}
 )
 
-const (
-	label = "linux"
-)
-
-func init() {
-	opos.RegisterOperatingSystem(label, newLinux)
-}
-
-type linuxOS struct{}
-
-func newLinux() (opos.OperatingSystem, error) {
-	return linuxOS{}, nil
-}
-
-func (linux linuxOS) GetShell() (string, error) {
-	return os.Getenv("SHELL"), nil
+func (windows windowsOS) GetDesktop() (string, error) {
+	return desktops["windows"], nil
 }

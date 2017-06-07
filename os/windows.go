@@ -13,30 +13,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-// +build darwin
+// +build windows
 
-package darwin
+package os
 
 import (
 	"os"
 
-	opos "github.com/nlamirault/blinky/os"
+	"github.com/nlamirault/blinky/utils"
 )
 
-const (
-	label = "darwin"
-)
+type windowsOS struct{}
 
-func init() {
-	opos.RegisterOperatingSystem(label, newDarwin)
+func NewOperatingSystem() (OperatingSystem, error) {
+	return windowsOS{}, nil
 }
 
-type darwinOS struct{}
-
-func newDarwin() (opos.OperatingSystem, error) {
-	return darwinOS{}, nil
-}
-
-func (darwin darwinOS) GetShell() (string, error) {
+func (windows windowsOS) GetShell() (string, error) {
 	return os.Getenv("SHELL"), nil
+}
+
+func (windows windowsOS) GetName() (string, error) {
+	name, err := utils.ExecCommand("wmic", "os get Caption")
+	if err != nil {
+		return "", err
+	}
+	return name, nil
 }

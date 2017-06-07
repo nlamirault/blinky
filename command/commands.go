@@ -17,12 +17,11 @@ package command
 
 import (
 	//"log"
-	"os"
+	goos "os"
 
 	"github.com/mitchellh/cli"
 
 	"github.com/nlamirault/blinky/logging"
-	_ "github.com/nlamirault/blinky/os/linux"
 )
 
 // Commands is the mapping of all the available Terraform commands.
@@ -38,9 +37,9 @@ var (
 func init() {
 	UI = &cli.ColoredUi{
 		Ui: &cli.BasicUi{
-			Writer:      os.Stdout,
-			Reader:      os.Stdin,
-			ErrorWriter: os.Stderr,
+			Writer:      goos.Stdout,
+			Reader:      goos.Stdin,
+			ErrorWriter: goos.Stderr,
 		},
 		OutputColor: cli.UiColorNone,
 		InfoColor:   cli.UiColorGreen,

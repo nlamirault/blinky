@@ -103,7 +103,7 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
-	os, err := os.New(hostInfo.OS)
+	os, err := os.NewOperatingSystem()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
