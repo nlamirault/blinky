@@ -225,16 +225,16 @@ var (
 			green + `         ./ydNMMMMMMMMMMMMMMMMMMMMM  ` + "\n" +
 			green + `            \.MMMMMMMMMMMMMMMMMMM    ` + "\n",
 		"centos": yellow +
-			`                 .PLTJ.                  ` + "\n" +
-			`                <><><><>                 ` + "\n" +
+			`                 .PLTJ.                  ` + "  %s: %s\n" +
+			yellow + `                <><><><>                 ` + "  %s: %s\n" +
 			green +
-			`      KKSSV' 4KKK  ` + yellow + `LJ ` + red + ` KKKL.'VSSKK ` + "\n" +
-			green + `      KKV' 4KKKKK ` + yellow + ` LJ` + red + `  KKKKAL 'VKK` + "\n" +
-			green + `      V' ' 'VKKKK ` + yellow + ` LJ ` + red + ` KKKKV' ' 'V` + "\n" +
-			green + `      .4MA.' 'VKK ` + yellow + ` LJ ` + red + ` KKV' '.4Mb.` + "\n" +
-			red + `    . ` + green + `KKKKKA.' VK ` + yellow + ` LJ ` + red + ` V' '.4KKKKK` + blue + `.` + "\n" +
-			red + `  .4D ` + green + `KKKKKKKA.'' ` + yellow + ` LJ ` + red + ` ''.4KKKKKKK ` + blue + `FA.` + "\n" +
-			red + ` <QDD ++++++++++++  ` + blue + `  ++++++++++++ GFD>` + "\n" +
+			`      KKSSV' 4KKK  ` + yellow + `LJ ` + red + ` KKKL.'VSSKK ` + "        %s: %s\n" +
+			green + `      KKV' 4KKKKK ` + yellow + ` LJ` + red + `  KKKKAL 'VKK` + "         %s: %s\n" +
+			green + `      V' ' 'VKKKK ` + yellow + ` LJ ` + red + ` KKKKV' ' 'V` + "         %s: %s\n" +
+			green + `      .4MA.' 'VKK ` + yellow + ` LJ ` + red + ` KKV' '.4Mb.` + "         %s: %s\n" +
+			red + `    . ` + green + `KKKKKA.' VK ` + yellow + ` LJ ` + red + ` V' '.4KKKKK` + blue + `.` + "        %s: %s\n" +
+			red + `  .4D ` + green + `KKKKKKKA.'' ` + yellow + ` LJ ` + red + ` ''.4KKKKKKK ` + blue + `FA.` + "     %s: %s\n" +
+			red + ` <QDD ++++++++++++  ` + blue + `  ++++++++++++ GFD>` + "    %s: %s\n" +
 			red + `  'VD ` + blue + `KKKKKKKK'.. ` + green + ` LJ ` + yellow + ` ..'KKKKKKKK ` + blue + `FV` + "\n" +
 			red + `    ' ` + blue + `VKKKKK'. .4 ` + green + ` LJ  ` + yellow + `K. .'KKKKKV` + blue + `'` + "\n" +
 			blue + `      'VK'. .4KK   ` + green + `LJ ` + yellow + ` KKA. .'KV'` + "\n" +
@@ -281,6 +281,7 @@ var (
 		"arch":   "blue",
 		"ubuntu": "red",
 		"debian": "red",
+		"centos": "yellow",
 		"osx":    "yellow",
 	}
 )
