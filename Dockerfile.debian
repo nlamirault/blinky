@@ -1,0 +1,38 @@
+# Copyright (C) 2015-2017 Nicolas Lamirault <nicolas.lamirault@gmail.com>
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+FROM debian:9
+MAINTAINER Nicolas Lamirault <nicolas.lamirault@gmail.com>
+
+ENV PATH /go/bin:/usr/local/go/bin:$PATH
+ENV GOPATH /go
+
+ENV GOLANG_VERSION 1.8.3
+ENV GOLANG_DOWNLOAD_URL https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz
+ENV GOLANG_DOWNLOAD_SHA256 1862f4c3d3907e59b04a757cfda0ea7aa9ef39274af99a784f5be843c80c6772
+
+ADD https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz /golang.tar.gz
+
+RUN echo "$GOLANG_DOWNLOAD_SHA256 /golang.tar.gz" | sha256sum -c - \
+        && tar -C /usr/local -xzf /golang.tar.gz \
+        && rm /golang.tar.gz
+
+COPY . /go/src/github.com/nlamirault/blinky
+
+RUN set -x \
+    && cd /go/src/github.com/nlamirault/blinky \
+    && go build -o /usr/bin/blinky github.com/nlamirault/blinky \
+    && echo "Build complete."
+
+ENTRYPOINT ["/usr/bin/blinky"]
