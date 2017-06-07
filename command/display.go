@@ -103,31 +103,13 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		return 1
 	}
 
-	os, err := os.NewOperatingSystem()
+	opSystem, err := os.NewOperatingSystem()
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
 	}
 
-	model, err := os.GetModel()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
-		return 1
-	}
-
-	desktopName, err := os.GetDesktop()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
-		return 1
-	}
-
-	osName, err := os.GetName()
-	if err != nil {
-		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
-		return 1
-	}
-
-	shellName, err := os.GetShell()
+	details, err := os.RetrieveDetails(opSystem)
 	if err != nil {
 		c.UI.Error(fmt.Sprintf("Error : %s", err.Error()))
 		return 1
@@ -136,9 +118,9 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 	c.UI.Output(fmt.Sprintf(
 		logo,
 		colorstring.Color(fmt.Sprintf("[%s]OS", color)),
-		fmt.Sprintf("%s", osName),
+		fmt.Sprintf("%s", details.Name),
 		colorstring.Color(fmt.Sprintf("[%s]Model", color)),
-		fmt.Sprintf("%s", model),
+		fmt.Sprintf("%s", details.Model),
 		colorstring.Color(fmt.Sprintf("[%s]Kernel", color)),
 		hostInfo.KernelVersion,
 		colorstring.Color(fmt.Sprintf("[%s]Hostname", color)),
@@ -150,9 +132,9 @@ func (c *DisplayCommand) doDisplaySystemInformations() int {
 		colorstring.Color(fmt.Sprintf("[%s]Mem", color)),
 		fmt.Sprintf("%d MiB / %d MiB - %.0f%%", (vmem.Free/1024/1024), (vmem.Total/1024/1024), vmem.UsedPercent),
 		colorstring.Color(fmt.Sprintf("[%s]Desktop", color)),
-		fmt.Sprintf("%s", desktopName),
+		fmt.Sprintf("%s", details.Desktop),
 		colorstring.Color(fmt.Sprintf("[%s]Shell", color)),
-		fmt.Sprintf("%s", shellName),
+		fmt.Sprintf("%s", details.Shell),
 	))
 	return 0
 }

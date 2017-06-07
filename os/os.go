@@ -33,17 +33,38 @@ type OperatingSystem interface {
 	GetName() (string, error)
 }
 
-// type OsFunc func() (OperatingSystem, error)
+// Details define some informatinos about the operating system
+type Details struct {
+	Model   string
+	Desktop string
+	Name    string
+	Shell   string
+}
 
-// var registeredOS = map[string](OsFunc){}
+func RetrieveDetails(system OperatingSystem) (*Details, error) {
+	model, err := system.GetModel()
+	if err != nil {
+		return nil, err
+	}
 
-// func RegisterOperatingSystem(name string, f OsFunc) {
-// 	registeredOS[name] = f
-// }
+	desktopName, err := system.GetDesktop()
+	if err != nil {
+		return nil, err
+	}
 
-// func New(name string) (OperatingSystem, error) {
-// 	if os, ok := registeredOS[name]; ok {
-// 		return os()
-// 	}
-// 	return nil, fmt.Errorf("Unsupported operating system: %s", name)
-// }
+	osName, err := system.GetName()
+	if err != nil {
+		return nil, err
+	}
+
+	shellName, err := system.GetShell()
+	if err != nil {
+		return nil, err
+	}
+	return &Details{
+		Model:   model,
+		Desktop: desktopName,
+		Name:    osName,
+		Shell:   shellName,
+	}, nil
+}
