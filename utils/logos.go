@@ -155,15 +155,15 @@ var (
 			blue + `  ++:.                           \-/+/` + "\n" +
 			blue + ` .\                                 \/` + "\n",
 		"debian": red + `       _,met$$$$$gg.           ` + "\n" +
-			red + `    ,g$$$$$$$$$$$$$$$P.       ` + "\n" +
-			red + `  ,g$$P""       """Y$$.".     ` + "\n" +
-			red + ` ,$$P'              '$$$.     ` + "\n" +
-			red + `',$$P       ,ggs.     '$$b:   ` + "\n" +
-			red + `'d$$'     ,$P"'   ` + white + `.` + red + `    $$$    ` + "\n" +
-			red + ` $$P      d$'     ` + white + `,` + red + `    $$P    ` + "\n" +
-			red + ` $$:      $$.   ` + white + `-` + red + `    ,d$$'    ` + "\n" +
-			red + ` $$\;      Y$b._   _,d$P'     ` + "\n" +
-			red + ` Y$$.    ` + white + `'.` + red + `'"Y$$$$P"'         ` + "\n" +
+			red + `    ,g$$$$$$$$$$$$$$$P.       ` + " %s: %s\n" +
+			red + `  ,g$$P""       """Y$$.".     ` + " %s: %s\n" +
+			red + ` ,$$P'              '$$$.     ` + " %s: %s\n" +
+			red + `',$$P       ,ggs.     '$$b:   ` + " %s: %s\n" +
+			red + `'d$$'     ,$P"'   ` + white + `.` + red + `    $$$    ` + " %s: %s\n" +
+			red + ` $$P      d$'     ` + white + `,` + red + `    $$P    ` + " %s: %s\n" +
+			red + ` $$:      $$.   ` + white + `-` + red + `    ,d$$'    ` + " %s: %s\n" +
+			red + ` $$\;      Y$b._   _,d$P'     ` + " %s: %s\n" +
+			red + ` Y$$.    ` + white + `'.` + red + `'"Y$$$$P"'         ` + " %s: %s\n" +
 			red + ` '$$b      ` + white + `"-.__              ` + "\n" +
 			red + `  'Y$$                        ` + "\n" +
 			red + `   'Y$$.                      ` + "\n" +
@@ -242,6 +242,7 @@ var (
 	colorsData = map[string]string{
 		"arch":   "blue",
 		"ubuntu": "red",
+		"debian": "red",
 	}
 )
 
